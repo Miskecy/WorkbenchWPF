@@ -65,54 +65,154 @@
             <RowDefinition MinHeight="0" Height="auto" MaxHeight="300"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.RowSpan="2">
+        <DataGrid x:Name="Operation" Grid.RowSpan="2">
 
-            <DataGrid.Columns>
-                <DataGridTextColumn>
+            <!--Font Color / Style for the Column headings-->
+            <DataGrid.Resources>
+                <Style TargetType="DataGrid">
+                    <Setter Property="AlternatingRowBackground" Value="#c1c1c1"/>
+                    <Setter Property="RowBackground" Value="white"/>
+                    <Setter Property="Foreground" Value="#1c1c1c" />
+                    <Setter Property="Background" Value="#1c1c1c"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                     
-                </DataGridTextColumn>
+                    <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+                    <Setter Property="VerticalGridLinesBrush" Value="#6458FF"/>
+                    <Setter Property="HorizontalGridLinesBrush" Value="#6458FF"/>                    
+                    
+                    <!--<Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>-->
+                    <!--<Setter Property="VerticalScrollBarVisibility" Value="Auto"/>-->
+                    <Setter Property="AutoGenerateColumns" Value="False"/>
+                    <!--<Setter Property="AreRowDetailsFrozen" Value="False"/>
+                    <Setter Property="AlternationCount" Value="2"/>
+                    <Setter Property="EnableColumnVirtualization" Value="False"/>
+                    <Setter Property="EnableRowVirtualization" Value="False"/>-->
+
+                    <Setter Property="HeadersVisibility" Value="Column"/>                   
+                    <Setter Property="CanUserAddRows" Value="False"/>
+                    <Setter Property="CanUserResizeColumns" Value="False"/>
+                    <!--<Setter Property="IsReadOnly" Value="True"/>-->
+                </Style>
+                
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#1c1c1c"/>
+                    <Setter Property="Height" Value="45"/>
+                    <Setter Property="Foreground" Value="#6458FF"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Height" Value="45"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="Regular"/>
+
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="#6458FF" />
+                            <Setter Property="Foreground" Value="white" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <!--<Style TargetType="{x:Type ScrollBar}">
+                    <Setter Property="Background" Value="red" />
+                </Style>-->
+
+                <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#6458FF"/>-->
+            </DataGrid.Resources>
+
+            <!--Column Header Text and Bindings-->
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header=""  Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="DATE"  Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Date}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="ACTIVE"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Active}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>                   
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="OP. WIN"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=OpWin}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="OP. LOSS"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=OpLoss}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="WINRATE"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=WinRate, StringFormat={}{0:#0.00'%'}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="CONTRACT"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Contract}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="WIN"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Win, ConverterCulture=pt-BR, StringFormat={}{0:C}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="LOSS"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Loss, ConverterCulture=pt-BR, StringFormat={}{0:C}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="PROFIT"  Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Profit, ConverterCulture=pt-BR, StringFormat={}{0:C}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
 
-            <!--Image-->
-            <TextBlock Grid.Column="0"
-                       Text=""
-                       Style="{StaticResource font_style}"/>
-            <!--Date-->
-            <TextBlock Grid.Column="1"
-                       Text="DATE"
-                       Style="{StaticResource font_style}"/>
-            <!--Active-->
-            <TextBlock Grid.Column="2"
-                       Text="ACTIVE"
-                       Style="{StaticResource font_style}"/>
-            <!--Op. Win-->
-            <TextBlock Grid.Column="3"
-                       Text="OP.WIN"
-                       Style="{StaticResource font_style}"/>
-            <!--Op. Loss-->
-            <TextBlock Grid.Column="4"
-                       Text="OP.LOSS"
-                       Style="{StaticResource font_style}"/>
-            <!--Winrate-->
-            <TextBlock Grid.Column="5"
-                       Text="WINRATE"
-                       Style="{StaticResource font_style}"/>
-            <!--Contracts-->
-            <TextBlock Grid.Column="6"
-                       Text="CONTRACTS"
-                       Style="{StaticResource font_style}"/>
-            <!--Win-->
-            <TextBlock Grid.Column="7"
-                       Text="WIN"
-                       Style="{StaticResource font_style}"/>
-            <!--Loss-->
-            <TextBlock Grid.Column="8"
-                       Text="LOSS"
-                       Style="{StaticResource font_style}"/>
-            <!--Profit-->
-            <TextBlock Grid.Column="9"
-                       Text="PROFIT"
-                       Style="{StaticResource font_style}"/>
         </DataGrid>     
 
         <!--Toggle button Bottom Menu-->
