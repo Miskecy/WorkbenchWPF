@@ -1,0 +1,135 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Icons\accounting_50px.png" />
+    <None Remove="Assets\Icons\accounting_50px.pngl.png" />
+    <None Remove="Assets\Icons\add_50px.png" />
+    <None Remove="Assets\Icons\add_new_50px.png" />
+    <None Remove="Assets\Icons\collapse_arrow_50px_gray.png" />
+    <None Remove="Assets\Icons\collapse_arrow_50px_purple.png" />
+    <None Remove="Assets\Icons\csv_50px.png" />
+    <None Remove="Assets\Icons\csv_50px.png200.png" />
+    <None Remove="Assets\Icons\decrease_50px.png" />
+    <None Remove="Assets\Icons\delete_50px.png" />
+    <None Remove="Assets\Icons\delete_50px.pngl.png" />
+    <None Remove="Assets\Icons\delete_50px2.png" />
+    <None Remove="Assets\Icons\dollar_bitcoin_exchange_50px.png" />
+    <None Remove="Assets\Icons\dollar_bitcoin_exchange_50px.pngl.png" />
+    <None Remove="Assets\Icons\expand_arrow_50px_gray.png" />
+    <None Remove="Assets\Icons\expand_arrow_50px_purple.png" />
+    <None Remove="Assets\Icons\export_csv_50px.png" />
+    <None Remove="Assets\Icons\filter_50px.png" />
+    <None Remove="Assets\Icons\filter_50pxl.png" />
+    <None Remove="Assets\Icons\google_sites_50px.png" />
+    <None Remove="Assets\Icons\import_csv_50px.png" />
+    <None Remove="Assets\Icons\import_csv_50px.pngl.png" />
+    <None Remove="Assets\Icons\increase_50px.png" />
+    <None Remove="Assets\Icons\investment_portfolio_50px.png" />
+    <None Remove="Assets\Icons\investment_portfolio_50px.pngl.png" />
+    <None Remove="Assets\Icons\ldollar_bitcoin_exchange_50px.png" />
+    <None Remove="Assets\Icons\learning_50px.png" />
+    <None Remove="Assets\Icons\learning_50px.pngl.png" />
+    <None Remove="Assets\Icons\less_than_50px.png" />
+    <None Remove="Assets\Icons\low_price_50px.png" />
+    <None Remove="Assets\Icons\maximize_50px.png" />
+    <None Remove="Assets\Icons\menu_50px.png" />
+    <None Remove="Assets\Icons\menu_rounded_50px.png" />
+    <None Remove="Assets\Icons\menu_squared_50px.png" />
+    <None Remove="Assets\Icons\more_than_50px.png" />
+    <None Remove="Assets\Icons\multichannel_50px.png" />
+    <None Remove="Assets\Icons\plus_math_50px.png" />
+    <None Remove="Assets\Icons\plus_math_50px.png2.png" />
+    <None Remove="Assets\Icons\search_50px.png" />
+    <None Remove="Assets\Icons\search_50px.pngl.png" />
+    <None Remove="Assets\Icons\settings_50px_gray.png" />
+    <None Remove="Assets\Icons\settings_50px_purple.png" />
+    <None Remove="Assets\Icons\subtract_50px.png" />
+    <None Remove="Assets\Icons\update_50px.png" />
+    <None Remove="Assets\Images\BabyZeroTwo.png" />
+    <None Remove="Assets\Images\zero-two.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="App.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Caliburn.Micro" Version="4.0.173" />
+    <PackageReference Include="Caliburn.Micro.Core" Version="4.0.173" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icons\accounting_50px.png" />
+    <Resource Include="Assets\Icons\accounting_50px.pngl.png" />
+    <Resource Include="Assets\Icons\add_50px.png" />
+    <Resource Include="Assets\Icons\add_new_50px.png" />
+    <Resource Include="Assets\Icons\collapse_arrow_50px_gray.png" />
+    <Resource Include="Assets\Icons\collapse_arrow_50px_purple.png" />
+    <Resource Include="Assets\Icons\csv_50px.png" />
+    <Resource Include="Assets\Icons\csv_50px.png200.png" />
+    <Resource Include="Assets\Icons\decrease_50px.png" />
+    <Resource Include="Assets\Icons\delete_50px.png" />
+    <Resource Include="Assets\Icons\delete_50px.pngl.png" />
+    <Resource Include="Assets\Icons\delete_50px2.png" />
+    <Resource Include="Assets\Icons\dollar_bitcoin_exchange_50px.png" />
+    <Resource Include="Assets\Icons\dollar_bitcoin_exchange_50px.pngl.png" />
+    <Resource Include="Assets\Icons\settings_50px_gray.png" />
+    <Resource Include="Assets\Icons\expand_arrow_50px_gray.png" />
+    <Resource Include="Assets\Icons\expand_arrow_50px_purple.png" />
+    <Resource Include="Assets\Icons\export_csv_50px.png" />
+    <Resource Include="Assets\Icons\filter_50px.png" />
+    <Resource Include="Assets\Icons\filter_50pxl.png" />
+    <Resource Include="Assets\Icons\google_sites_50px.png" />
+    <Resource Include="Assets\Icons\import_csv_50px.png" />
+    <Resource Include="Assets\Icons\import_csv_50px.pngl.png" />
+    <Resource Include="Assets\Icons\increase_50px.png" />
+    <Resource Include="Assets\Icons\investment_portfolio_50px.png" />
+    <Resource Include="Assets\Icons\investment_portfolio_50px.pngl.png" />
+    <Resource Include="Assets\Icons\ldollar_bitcoin_exchange_50px.png" />
+    <Resource Include="Assets\Icons\learning_50px.png" />
+    <Resource Include="Assets\Icons\learning_50px.pngl.png" />
+    <Resource Include="Assets\Icons\less_than_50px.png" />
+    <Resource Include="Assets\Icons\low_price_50px.png" />
+    <Resource Include="Assets\Icons\maximize_50px.png" />
+    <Resource Include="Assets\Icons\menu_50px.png" />
+    <Resource Include="Assets\Icons\menu_rounded_50px.png" />
+    <Resource Include="Assets\Icons\menu_squared_50px.png" />
+    <Resource Include="Assets\Icons\more_than_50px.png" />
+    <Resource Include="Assets\Icons\multichannel_50px.png" />
+    <Resource Include="Assets\Icons\plus_math_50px.png" />
+    <Resource Include="Assets\Icons\plus_math_50px.png2.png" />
+    <Resource Include="Assets\Icons\search_50px.png" />
+    <Resource Include="Assets\Icons\search_50px.pngl.png" />
+    <Resource Include="Assets\Icons\settings_50px_purple.png" />
+    <Resource Include="Assets\Icons\subtract_50px.png" />
+    <Resource Include="Assets\Icons\update_50px.png" />
+    <Resource Include="Assets\Images\BabyZeroTwo.png" />
+    <Resource Include="Assets\Images\zero-two.png" />
+  </ItemGroup>
+
+</Project>

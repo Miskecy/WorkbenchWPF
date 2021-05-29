@@ -1,0 +1,403 @@
+﻿<Window x:Class="WorkbenchWPF.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkbenchWPF.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="750" Width="1200" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize" 
+        WindowStyle="None">
+
+    <Window.Resources>
+
+        <!-- ToggleButton image template -->
+        <ImageBrush x:Key="tb_mouse_over" ImageSource="../Assets/Icons/menu_50px.png"/>
+
+        <!--Window icons-->
+        <Image x:Key="MinimizeIcon" Source="../Assets/Icons/subtract_50px.png" Width="15" Height="15"/>
+        <Image x:Key="MaximizeIcon" Source="../Assets/Icons/maximize_50px.png" Width="13" Height="13"/>
+        <Image x:Key="CloseIcon" Source="../Assets/Icons/delete_50px2.png" Width="15" Height="15"/>
+
+        <!-- Text font style -->
+        <Style x:Key="font_style" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="#c1c1c1"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!--ToggleButton style-->
+        <Style x:Key="toggleButton_style" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="border"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--ListView Button-->
+        <Style x:Key="listviewButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="172"/>
+            <Setter Property="Height" Value="45"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="0" BorderBrush="Transparent" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#1c1c1c">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" MinWidth="68" MaxWidth="172"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="37"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="45"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top bar -->
+        <Grid Background="#1C1C1C" Grid.Column="1" MouseDown="Grid_MouseDown">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!--Menu-->
+            <ToggleButton Height="23" 
+                          Width="23"
+                          BorderThickness="0"
+                          Style="{StaticResource toggleButton_style}">
+
+                <ToggleButton.Background>
+                    <ImageBrush ImageSource="../Assets/Icons/menu_50px.png" Stretch="Fill"/>
+                </ToggleButton.Background>
+
+                <ToggleButton.Triggers>
+                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="HideStackPanel">
+                                <DoubleAnimation Storyboard.TargetName="SideBar"
+                                                             Storyboard.TargetProperty="Width"
+                                                             BeginTime="0:0:0"
+                                                             From="172" To="68"
+                                                             Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="ShowStackPanel">
+                                <DoubleAnimation Storyboard.TargetName="SideBar"
+                                                             Storyboard.TargetProperty="Width"
+                                                             BeginTime="0:0:0"
+                                                             From="68" To="172"
+                                                             Duration="0:0:0.2">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ToggleButton.Triggers>
+            </ToggleButton>
+
+            <StackPanel Grid.Column="6"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+                <Button Content="{StaticResource MinimizeIcon}" Click="SetMinimize">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#1c1c1c"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Width="45" Height="37" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#6458FF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Content="{StaticResource MaximizeIcon}" Click="SetMaximize">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#1c1c1c"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Width="45" Height="37" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#6458FF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Content="{StaticResource CloseIcon}" Click="SetClose">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#1c1c1c"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Width="45" Height="37" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#6458FF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+
+            <Border Grid.ColumnSpan="7" BorderBrush="#6458FF" BorderThickness="0 0 0 1" />
+        </Grid>
+
+        <!--Sidebar-->
+        <Grid x:Name="SideBar" Background="#1c1c1c"
+              HorizontalAlignment="Left"
+              Grid.RowSpan="3"
+              MaxWidth="172">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="82"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="45"/>
+            </Grid.RowDefinitions>
+
+            <!--Logo-->
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="0"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="68"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0"
+                       Source="../Assets/Images/BabyZeroTwo.png"  
+                       Stretch="Uniform"
+                       Width="78"
+                       Margin="-9 0 0 0"
+                       SnapsToDevicePixels="True"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       RenderOptions.EdgeMode="Aliased" />
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Workbench" Style="{StaticResource font_style}" />
+                    <TextBlock Text="v1.0.0" Style="{StaticResource font_style}" Foreground="#6458FF" Margin="35 5 0 0"/>
+                </StackPanel>
+            </Grid>
+
+
+            <!--Menu-->
+            <ListView Grid.Row="1" 
+                      Background="Transparent"
+                      BorderThickness="0"
+                      Padding="-1"
+                      Margin="0"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <!--Dashboard-->
+                <ListViewItem>
+                    <Button x:Name="ShowPageDashboard" Style="{StaticResource listviewButton}">
+                        <StackPanel Orientation="Horizontal" Width="172" Height="45">
+                            <Image 
+                            Source="../Assets/Icons/accounting_50px.png" Width="25" Height="25" 
+                            Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+
+                <!--Trades-->
+                <ListViewItem >
+                    <Button x:Name="ShowPageTrade" Style="{StaticResource listviewButton}">
+                        <StackPanel Orientation="Horizontal" Width="172"  Height="45" >
+                            <Image Source="../Assets/Icons/dollar_bitcoin_exchange_50px.png" Width="25" Height="25" 
+                               Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <TextBlock Text="Trades" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
+                        </StackPanel>
+                    </Button>                    
+                </ListViewItem>
+
+                <!--Learning-->
+                <ListViewItem>
+                    <Button  x:Name="ShowPageLearning" Style="{StaticResource listviewButton}">
+                        <StackPanel Orientation="Horizontal" Width="172"  Height="45">
+                            <Image Source="../Assets/Icons/learning_50px.png" Width="25" Height="25" 
+                               Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <TextBlock Text="Learning" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
+                        </StackPanel>
+                    </Button>
+                </ListViewItem>
+
+                <!--ListView items style template-->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border x:Name="ItemMenu" 
+                                            Height="45" 
+                                            Width="172"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}"
+                                            SnapsToDevicePixels="True">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsMouseOver" Value="True"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" TargetName="ItemMenu" Value="#6458FF"/>
+                                            <Setter Property="BorderBrush" TargetName="ItemMenu" Value="#6458FF"/>
+                                            <Setter Property="BorderThickness" TargetName="ItemMenu" Value="0"/>
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>                        
+                    </Style>                    
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+            <!--Button Settings-->
+            <Button x:Name="btnSettings" 
+                    Grid.Row="3" 
+                    Height="45" Width="172" 
+                    MouseEnter="OnHouverBtnSettings" MouseLeave="NormalBtnSettings">
+
+                <DockPanel Width="172" Height="45">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Image x:Name="imageButtonSttings" 
+                               Source="../Assets/Icons/settings_50px_gray.png" 
+                               Stretch="Fill" Width="25" Height="25"     
+                               Margin="22 0 0 0"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+
+                        <TextBlock x:Name="textButtonSttings" 
+                               Text="Settings" 
+                               VerticalAlignment="Center" 
+                                   Margin="20 0 0 0"
+                               Style="{StaticResource font_style}"/>
+                    </StackPanel>
+                </DockPanel>
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#6458FF"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Height="45" Width="172" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <!--<Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#ffffff"/>
+                            </Trigger>
+                        </Style.Triggers>-->
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Border Grid.RowSpan="3" BorderThickness="0"/>
+        </Grid>
+
+        <Border Grid.RowSpan="3" BorderBrush="#6458FF" BorderThickness="0 0 1 0"/>
+
+        <!--Content-->
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+              Background="Transparent">
+            <ContentControl x:Name="ActiveItem" />
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="WorkbenchWPF.Views.TradeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorkbenchWPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="713" d:DesignWidth="1028
+             ">
+    <UserControl.Resources>
+        
+        <!--Text Header Style-->
+        <Style x:Key="font_style" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#6458FF"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        
+        <!-- Button image expand template -->
+        <ImageBrush x:Key="expandGrayIcon" ImageSource="../Assets/Icons/expand_arrow_50px_gray.png"/>
+        <ImageBrush x:Key="expandPurpleIcon" ImageSource="../Assets/Icons/expand_arrow_50px_purple.png"/>
+        <ImageBrush x:Key="collapseGrayIcon" ImageSource="../Assets/Icons/collapse_arrow_50px_gray.png"/>
+        <ImageBrush x:Key="collapsePurpleIcon" ImageSource="../Assets/Icons/collapse_arrow_50px_purple.png"/>
+
+        <!--ToggleButton style-->
+        <Style x:Key="toggleButton_style" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="MyToggleButton"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background"
+                                        TargetName="MyToggleButton"
+                                        Value="{StaticResource collapsePurpleIcon}"/>
+                            </Trigger>
+
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background"
+                                        TargetName="MyToggleButton"
+                                        Value="{StaticResource expandPurpleIcon}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="#1c1c1c">        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>            
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition MinHeight="0" Height="auto" MaxHeight="300"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.RowSpan="2">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn>
+                    
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+
+            <!--Image-->
+            <TextBlock Grid.Column="0"
+                       Text=""
+                       Style="{StaticResource font_style}"/>
+            <!--Date-->
+            <TextBlock Grid.Column="1"
+                       Text="DATE"
+                       Style="{StaticResource font_style}"/>
+            <!--Active-->
+            <TextBlock Grid.Column="2"
+                       Text="ACTIVE"
+                       Style="{StaticResource font_style}"/>
+            <!--Op. Win-->
+            <TextBlock Grid.Column="3"
+                       Text="OP.WIN"
+                       Style="{StaticResource font_style}"/>
+            <!--Op. Loss-->
+            <TextBlock Grid.Column="4"
+                       Text="OP.LOSS"
+                       Style="{StaticResource font_style}"/>
+            <!--Winrate-->
+            <TextBlock Grid.Column="5"
+                       Text="WINRATE"
+                       Style="{StaticResource font_style}"/>
+            <!--Contracts-->
+            <TextBlock Grid.Column="6"
+                       Text="CONTRACTS"
+                       Style="{StaticResource font_style}"/>
+            <!--Win-->
+            <TextBlock Grid.Column="7"
+                       Text="WIN"
+                       Style="{StaticResource font_style}"/>
+            <!--Loss-->
+            <TextBlock Grid.Column="8"
+                       Text="LOSS"
+                       Style="{StaticResource font_style}"/>
+            <!--Profit-->
+            <TextBlock Grid.Column="9"
+                       Text="PROFIT"
+                       Style="{StaticResource font_style}"/>
+        </DataGrid>     
+
+        <!--Toggle button Bottom Menu-->
+        <Grid Background="#1c1c1c"
+              Grid.Row="2"
+              Grid.ColumnSpan="10">
+
+            <ToggleButton x:Name="toggleBottomMenu" Height="25"
+                          Width="25"
+                          BorderThickness="0"
+                          Style="{StaticResource toggleButton_style}">
+
+                <ToggleButton.Background>
+                    <ImageBrush ImageSource="../Assets/Icons/collapse_arrow_50px_gray.png" Stretch="Fill"/>
+                </ToggleButton.Background>
+
+                <ToggleButton.Triggers>
+                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="HideStackPanel">
+                                <DoubleAnimation Storyboard.TargetName="BottomBar"
+                                             Storyboard.TargetProperty="Height"
+                                             BeginTime="0:0:0"
+                                             From="300" To="0"
+                                             Duration="0:0:0.2">
+
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="ShowStackPanel">
+                                <DoubleAnimation Storyboard.TargetName="BottomBar"
+                                             Storyboard.TargetProperty="Height"
+                                             BeginTime="0:0:0"
+                                             From="0" To="300"
+                                             Duration="0:0:0.2">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ToggleButton.Triggers>
+            </ToggleButton>
+        </Grid>
+
+        <!--Bottom Menu-->
+        <Grid x:Name="BottomBar" 
+              Grid.Row="3" 
+              Grid.Column="0" Grid.ColumnSpan="10" 
+              Background="red"
+              MaxHeight="300" Height="0" MinHeight="0">
+            
+        </Grid>
+    </Grid>
+</UserControl>
