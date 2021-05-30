@@ -22,7 +22,7 @@ namespace WorkbenchWPF.Views
     {
         public TradeView()
         {
-            InitializeComponent();            
-        }
-    }
+            InitializeComponent();    
+        }        
+    }    
 }
