@@ -132,10 +132,22 @@
 
             <!--Column Header Text and Bindings-->
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header=""  Width="70">
+                <DataGridTemplateColumn Header="" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Image Width="25" Height="25" IsEnabled="{Binding Path=IsWorst}" Stretch="Fill">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="../Assets/Icons/increase_50px_purple.png"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="True">
+                                                <Setter Property="Source" Value="../Assets/Icons/decrease_50px.png"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>                                    
+                                </Image.Style>
+                            </Image>
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -143,7 +155,7 @@
                 <DataGridTemplateColumn Header="DATE"  Width="200">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Date}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Path=Date, ConverterCulture=pt-BR, StringFormat={}{0:dddd dd/MM/yyyy}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

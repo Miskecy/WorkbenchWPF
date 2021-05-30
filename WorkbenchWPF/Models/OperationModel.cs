@@ -6,7 +6,8 @@ namespace WorkbenchWPF.Models
     public class OperationModel
     {
         [BsonId]
-        public Guid MyProperty { get; set; }
+        public Guid Id { get; set; }
+        public bool IsWorst { get; set; }
         public DateTime Date { get; set; }
         public string Active { get; set; }
         public int OpWin { get; set; }
