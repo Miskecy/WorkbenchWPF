@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Base Color -->
+    <Color x:Key="BackgroundBasePurple">#6458FF</Color>
+    <SolidColorBrush x:Key="ForegroundPurpleBrush" Color="{StaticResource BackgroundBasePurple}" />
+
+    <!-- Dark Mode Color -->
+    <Color x:Key="BackgroundDarkGray">#1c1c1c</Color>
+    <SolidColorBrush x:Key="ForegroundDarkGrayBrush" Color="{StaticResource BackgroundDarkGray}" />
+
+    <Color x:Key="BackgroundLightGray">#c1c1c1</Color>
+    <SolidColorBrush x:Key="ForegroundLightGrayBrush" Color="{StaticResource BackgroundLightGray}" />
+
+    <!-- Light Mode Color -->
+    <!--<Color x:Key="BackgroundLight">#c1c1c1</Color>
+    <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLight}" />
+
+    <Color x:Key="ForegroundLight">#1c1c1c</Color>
+    <SolidColorBrush x:Key="ForegroundLightBrush" Color="{StaticResource ForegroundLight}" />-->
+    
+</ResourceDictionary>
