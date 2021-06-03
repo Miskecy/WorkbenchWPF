@@ -9,6 +9,7 @@ namespace WorkbenchWPF.ViewModels
             ShowPageDashboard();
         }
 
+        #region Pages
         public async void ShowPageDashboard()
         {
             await ActivateItemAsync(new DashboardViewModel());
@@ -23,5 +24,6 @@ namespace WorkbenchWPF.ViewModels
         {
             await ActivateItemAsync(new LearningViewModel());
         }
+        #endregion
     }
 }
