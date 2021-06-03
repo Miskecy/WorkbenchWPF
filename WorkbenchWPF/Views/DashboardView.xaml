@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:WorkbenchWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="713" d:DesignWidth="1028">
+    
     <Grid Background="#1c1c1c">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>            
@@ -17,6 +19,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <!--#region HeatMap Calendar-->
         <DataGrid x:Name="HeatMap" Grid.Column="1">
             <DataGrid.Resources>
                 <Style TargetType="DataGrid">
@@ -86,7 +89,9 @@
                 
             </DataGrid.Columns>
         </DataGrid>
+        <!--#endregion-->
 
+        <!--#region Gradient Container-->
         <Grid Grid.Column="0" 
               Grid.ColumnSpan="2"
               Grid.Row="1">
@@ -102,6 +107,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
+            <!--#region Background Rectangle Gradient-->
             <Rectangle Grid.ColumnSpan="3" Grid.RowSpan="2">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,5">
@@ -112,13 +118,17 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <!--#endregion-->
 
+            <!--#region Background Image-->
             <Image Grid.Column="2"
                    Grid.RowSpan="2"
                    Source="../Assets/Images/zero-two.png" 
                    RenderOptions.BitmapScalingMode="HighQuality" 
                    Stretch="Uniform"/>
+            <!--#endregion-->
 
+            <!--#region Data Content-->
             <Grid Margin="30 60 30 30">
 
                 <Grid.RowDefinitions>
@@ -135,16 +145,21 @@
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
                 
+                <!--#region Title-->
                 <TextBlock Text="ABSTRACT" 
                        Grid.ColumnSpan="2"
                        Margin="20 10 0 10"
                        FontWeight="SemiBold"
                        FontSize="20"
                        Foreground="{StaticResource ForegroundLightGrayBrush}"/>
+                <!--#endregion-->
 
+                <!--#region Separator-->
                 <Separator Grid.Row="1" Grid.ColumnSpan="5" Background="{StaticResource ForegroundLightGrayBrush}"
                        Width="600"/>
+                <!--#endregion-->
 
+                <!--#region Left Side-->
                 <StackPanel Grid.Row="2" 
                             Grid.Column="0"
                             HorizontalAlignment="Right">
@@ -212,7 +227,9 @@
                            Style="{StaticResource LightGrayRegular}"
                                TextAlignment="Left"/>
                 </StackPanel>
+                <!--#endregion-->
 
+                <!--#region Right Side-->
                 <StackPanel Grid.Row="2" 
                             Grid.Column="3"
                             HorizontalAlignment="Right">
@@ -262,7 +279,10 @@
                            Style="{StaticResource LightGrayRegular}"
                                TextAlignment="Left"/>            
                 </StackPanel>
+                <!--#endregion-->
+                
             </Grid>
+            <!--#endregion-->
 
             <TextBlock Text="Miskecy 2021 © Workbench Designer by Chikyuujin"
                        Grid.Row="1"
@@ -271,5 +291,7 @@
                        VerticalAlignment="Center"
                        Style="{StaticResource LightGraySemibold}"/>
         </Grid>
+        <!--#endregion-->
+        
     </Grid>
 </UserControl>

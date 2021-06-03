@@ -11,17 +11,20 @@
         ResizeMode="NoResize" 
         WindowStyle="None">
 
+    <!--#region Static Resources-->
     <Window.Resources>
 
-        <!-- ToggleButton image template -->
+        <!--#region ToggleButton image template -->
         <ImageBrush x:Key="tb_mouse_over" ImageSource="../Assets/Icons/menu_50px.png"/>
+        <!--#endregion-->
 
-        <!--Window icons-->
+        <!--#region Window icons-->
         <Image x:Key="MinimizeIcon" Source="../Assets/Icons/subtract_50px.png" Width="15" Height="15"/>
         <Image x:Key="MaximizeIcon" Source="../Assets/Icons/maximize_50px.png" Width="13" Height="13"/>
         <Image x:Key="CloseIcon" Source="../Assets/Icons/delete_50px2.png" Width="15" Height="15"/>
+        <!--#endregion-->
 
-        <!-- Text font style -->
+        <!--#region Text font style -->
         <Style x:Key="font_style" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -29,8 +32,9 @@
             <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
+        <!--#endregion-->
 
-        <!--ToggleButton style-->
+        <!--#region ToggleButton style-->
         <Style x:Key="toggleButton_style" TargetType="{x:Type ToggleButton}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -66,8 +70,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion-->
         
-        <!--ListView Button-->
+        <!--#region ListView Button-->
         <Style x:Key="listviewButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -89,7 +94,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--#endregion-->
+        
     </Window.Resources>
+    <!--#endregion-->
 
     <Grid Background="#1c1c1c">
         <Grid.ColumnDefinitions>
@@ -104,7 +112,7 @@
             <RowDefinition Height="45"/>
         </Grid.RowDefinitions>
 
-        <!-- Top bar -->
+        <!--#region Top bar -->
         <Grid Background="#1C1C1C" Grid.Column="1" MouseDown="Grid_MouseDown">
 
             <Grid.ColumnDefinitions>
@@ -117,7 +125,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <!--Colapse/Expand Sidebar-->
+            <!--#region Colapse/Expand Sidebar-->
             <ToggleButton Height="23" 
                           Width="23"
                           BorderThickness="0"
@@ -156,12 +164,14 @@
                     </EventTrigger>
                 </ToggleButton.Triggers>
             </ToggleButton>
+            <!--#endregion-->
 
             <StackPanel Grid.Column="6"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
-                <!-- Minimize Button-->
+                
+                <!--#region Minimize Button-->
                 <Button Content="{StaticResource MinimizeIcon}" Click="SetMinimize">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -183,7 +193,9 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <!-- Maximize Button-->
+                <!--#endregion-->
+                
+                <!--#region Maximize Button-->
                 <Button Content="{StaticResource MaximizeIcon}" Click="SetMaximize">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -205,7 +217,9 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <!-- Close Button-->
+                <!--#endregion-->
+                
+                <!--#region Close Button-->
                 <Button Content="{StaticResource CloseIcon}" Click="SetClose">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -227,12 +241,15 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <!--#endregion-->
+                
             </StackPanel>
 
             <Border Grid.ColumnSpan="7" BorderBrush="#6458FF" BorderThickness="0 0 0 1" />
         </Grid>
+        <!--#endregion-->
 
-        <!--Sidebar-->
+        <!--#region Sidebar-->
         <Grid x:Name="SideBar" Background="#1c1c1c"
               HorizontalAlignment="Left"
               Grid.RowSpan="3"
@@ -280,14 +297,6 @@
 
                 <!--Dashboard-->
                 <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageDashboard]">
-                    <!--<Button x:Name="ShowPageDashboard" Style="{StaticResource listviewButton}">
-                        <StackPanel Orientation="Horizontal" Width="172" Height="45">
-                            <Image 
-                            Source="../Assets/Icons/accounting_50px.png" Width="25" Height="25" 
-                            Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
-                        </StackPanel>
-                    </Button>-->
                     <StackPanel Orientation="Horizontal">
                         <Image 
                             Source="../Assets/Icons/accounting_50px.png" Width="25" Height="25" 
@@ -298,13 +307,6 @@
 
                 <!--Trades-->
                 <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageTrade]">
-                    <!--<Button x:Name="ShowPageTrade" Style="{StaticResource listviewButton}">
-                        <StackPanel Orientation="Horizontal" Width="172"  Height="45" >
-                            <Image Source="../Assets/Icons/dollar_bitcoin_exchange_50px.png" Width="25" Height="25" 
-                               Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <TextBlock Text="Trades" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
-                        </StackPanel>
-                    </Button>-->
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Assets/Icons/dollar_bitcoin_exchange_50px.png" Width="25" Height="25" 
                                Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -314,13 +316,6 @@
 
                 <!--Learning-->
                 <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageLearning]">
-                    <!--<Button x:Name="ShowPageLearning" Style="{StaticResource listviewButton}">
-                        <StackPanel Orientation="Horizontal" Width="172"  Height="45">
-                            <Image Source="../Assets/Icons/learning_50px.png" Width="25" Height="25" 
-                               Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <TextBlock Text="Learning" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
-                        </StackPanel>
-                    </Button>-->
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Assets/Icons/learning_50px.png" Width="25" Height="25" 
                                Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -418,13 +413,16 @@
 
             <Border Grid.RowSpan="3" BorderThickness="0"/>
         </Grid>
+        <!--#endregion-->
 
         <Border Grid.RowSpan="3" BorderBrush="#6458FF" BorderThickness="0 0 1 0"/>
 
-        <!--Content-->
+        <!--#region Content-->
         <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
               Background="Transparent">
             <ContentControl x:Name="ActiveItem" />
         </Grid>
+        <!--#endregion-->
+        
     </Grid>
 </Window>
