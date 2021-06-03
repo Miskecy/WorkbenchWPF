@@ -55,7 +55,7 @@ namespace WorkbenchWPF.Views
             Close();
         }
 
-        private void OnHouverBtnSettings(object sender, MouseEventArgs e)
+        private void OnHoverBtnSettings(object sender, MouseEventArgs e)
         {
             btnSettings.Background = Colors.gray;
             imageButtonSttings.Source = new BitmapImage(new Uri(@"/Assets/Icons/settings_50px_purple.png", UriKind.Relative));

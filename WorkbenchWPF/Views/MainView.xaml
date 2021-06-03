@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkbenchWPF.Views"
+        xmlns:cal="http://caliburnmicro.com"
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="1200" 
         WindowStartupLocation="CenterScreen"
@@ -116,7 +117,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <!--Menu-->
+            <!--Colapse/Expand Sidebar-->
             <ToggleButton Height="23" 
                           Width="23"
                           BorderThickness="0"
@@ -160,7 +161,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
-
+                <!-- Minimize Button-->
                 <Button Content="{StaticResource MinimizeIcon}" Click="SetMinimize">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -182,7 +183,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-
+                <!-- Maximize Button-->
                 <Button Content="{StaticResource MaximizeIcon}" Click="SetMaximize">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -204,7 +205,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-
+                <!-- Close Button-->
                 <Button Content="{StaticResource CloseIcon}" Click="SetClose">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
@@ -278,37 +279,53 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                 <!--Dashboard-->
-                <ListViewItem>
-                    <Button x:Name="ShowPageDashboard" Style="{StaticResource listviewButton}">
+                <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageDashboard]">
+                    <!--<Button x:Name="ShowPageDashboard" Style="{StaticResource listviewButton}">
                         <StackPanel Orientation="Horizontal" Width="172" Height="45">
                             <Image 
                             Source="../Assets/Icons/accounting_50px.png" Width="25" Height="25" 
                             Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
                             <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
                         </StackPanel>
-                    </Button>
+                    </Button>-->
+                    <StackPanel Orientation="Horizontal">
+                        <Image 
+                            Source="../Assets/Icons/accounting_50px.png" Width="25" Height="25" 
+                            Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
+                    </StackPanel>
                 </ListViewItem>
 
                 <!--Trades-->
-                <ListViewItem >
-                    <Button x:Name="ShowPageTrade" Style="{StaticResource listviewButton}">
+                <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageTrade]">
+                    <!--<Button x:Name="ShowPageTrade" Style="{StaticResource listviewButton}">
                         <StackPanel Orientation="Horizontal" Width="172"  Height="45" >
                             <Image Source="../Assets/Icons/dollar_bitcoin_exchange_50px.png" Width="25" Height="25" 
                                Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
                             <TextBlock Text="Trades" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
                         </StackPanel>
-                    </Button>                    
+                    </Button>-->
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Assets/Icons/dollar_bitcoin_exchange_50px.png" Width="25" Height="25" 
+                               Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <TextBlock Text="Trade" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
+                    </StackPanel>
                 </ListViewItem>
 
                 <!--Learning-->
-                <ListViewItem>
-                    <Button  x:Name="ShowPageLearning" Style="{StaticResource listviewButton}">
+                <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageLearning]">
+                    <!--<Button x:Name="ShowPageLearning" Style="{StaticResource listviewButton}">
                         <StackPanel Orientation="Horizontal" Width="172"  Height="45">
                             <Image Source="../Assets/Icons/learning_50px.png" Width="25" Height="25" 
                                Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
                             <TextBlock Text="Learning" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
                         </StackPanel>
-                    </Button>
+                    </Button>-->
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Assets/Icons/learning_50px.png" Width="25" Height="25" 
+                               Margin="17 0 0 0" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <TextBlock Text="Learning" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
+                    </StackPanel>
                 </ListViewItem>
 
                 <!--ListView items style template-->
@@ -332,11 +349,21 @@
                                     <ControlTemplate.Triggers>
                                         <MultiTrigger>
                                             <MultiTrigger.Conditions>
-                                                <Condition Property="IsMouseOver" Value="True"/>
+                                                <Condition Property="IsMouseOver" Value="True"/>                                                                                               
                                             </MultiTrigger.Conditions>
                                             <Setter Property="Background" TargetName="ItemMenu" Value="#6458FF"/>
                                             <Setter Property="BorderBrush" TargetName="ItemMenu" Value="#6458FF"/>
                                             <Setter Property="BorderThickness" TargetName="ItemMenu" Value="0"/>
+                                        </MultiTrigger>
+                                        
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True"/>
+                                                <Condition Property="Selector.IsSelectionActive" Value="true"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Background" TargetName="ItemMenu" Value="#6458FF"/>
+                                            <Setter Property="BorderBrush" TargetName="ItemMenu" Value="#6458FF"/>
+                                            <Setter Property="BorderThickness" TargetName="ItemMenu" Value="0"/>                                                                                     
                                         </MultiTrigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -350,7 +377,7 @@
             <Button x:Name="btnSettings" 
                     Grid.Row="3" 
                     Height="45" Width="172" 
-                    MouseEnter="OnHouverBtnSettings" MouseLeave="NormalBtnSettings">
+                    MouseEnter="OnHoverBtnSettings" MouseLeave="NormalBtnSettings">
 
                 <DockPanel Width="172" Height="45">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
