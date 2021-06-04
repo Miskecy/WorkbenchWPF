@@ -109,19 +109,20 @@
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="Height" Value="45"/>
                     <Setter Property="BorderThickness" Value="0"/>
-                    
+
                     <Setter Property="FontSize" Value="13"/>
                     <Setter Property="FontWeight" Value="Regular"/>
 
                     <Style.Triggers>
                         <Trigger Property="DataGridCell.IsSelected" Value="True">
-                            <Setter Property="Background" Value="#6458FF" />
+                            <Setter Property="Background" Value="{StaticResource ForegroundDarkGrayBrush}" />                            
                             <Setter Property="Foreground" Value="white" />
                             <Setter Property="FontWeight" Value="SemiBold" />
                         </Trigger>
+                        
                     </Style.Triggers>
                 </Style>
-
+                
                 <!--<Style TargetType="{x:Type ScrollBar}">
                     <Setter Property="Background" Value="red" />
                 </Style>-->
@@ -132,7 +133,7 @@
             <!--#endregion-->
             
             <!--#region Column Header Text and Bindings-->
-            <DataGrid.Columns>
+            <DataGrid.Columns>                    
                 
                 <!--#region Image-->
                 <DataGridTemplateColumn Header="" Width="70">
@@ -149,9 +150,8 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Image.Style>
-                            </Image>                          
-
-                        </DataTemplate>
+                            </Image>
+                        </DataTemplate>                        
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--#endregion-->
