@@ -284,12 +284,15 @@
             </Grid>
             <!--#endregion-->
 
+            <!--#region Copyright-->
             <TextBlock Text="Miskecy 2021 © Workbench Designer by Chikyuujin"
                        Grid.Row="1"
                        Grid.ColumnSpan="4"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Style="{StaticResource LightGraySemibold}"/>
+            <!--#endregion-->
+            
         </Grid>
         <!--#endregion-->
         

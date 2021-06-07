@@ -56,6 +56,16 @@
         </Style>
         <!--#endregion-->
 
+        <!--#region TextBox Form Manual -->
+        <Style x:Key="TextBoxFormManual" TargetType="TextBox">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="23"/>            
+            <Setter Property="Margin" Value="0 5 0 0"/>            
+        </Style>
+        <!--#endregion-->
+        
     </UserControl.Resources>
     <!--#endregion-->
     
@@ -68,7 +78,7 @@
             <RowDefinition Height="45"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="45"/>
-            <RowDefinition MinHeight="0" Height="auto" MaxHeight="300"/>
+            <RowDefinition MinHeight="300" Height="auto" MaxHeight="300"/>
         </Grid.RowDefinitions>
 
         <DataGrid x:Name="Operation" Grid.RowSpan="2">
@@ -301,9 +311,165 @@
         <Grid x:Name="BottomBar" 
               Grid.Row="3" 
               Grid.Column="0" Grid.ColumnSpan="10" 
-              Background="red"
-              MaxHeight="300" Height="0" MinHeight="0">
+              MaxHeight="300" Height="300" MinHeight="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="45" />
+            </Grid.RowDefinitions>
+
+            <!--#region Automatic-->
+            <StackPanel Grid.Column="0" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                <!--#region Title-->
+                <TextBlock 
+                       Text="AUTOMATIC" 
+                       Style="{StaticResource LightGraySemibold}"
+                       TextAlignment="Center"
+                       Margin="0 10"/>
+                <!--#endregion-->
+
+                <!--#region Separator-->
+                <Separator Background="{StaticResource ForegroundLightGrayBrush}"
+                           Width="310" />
+                <!--#endregion-->
+
+            </StackPanel>
+
+            <Rectangle Grid.Column="0"
+                       Grid.Row="1"
+                       Width="310"
+                       Margin="20 0 20 20">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="../Assets/Icons/csv_50px_gray.png"  
+                                Stretch="None"
+                                AlignmentX="Center"
+                                AlignmentY="Center"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Viewport="0.35 0.35 0.60 0.60">
+                        <ImageBrush.Transform>
+                            <ScaleTransform ScaleX=".8" ScaleY=".8"/>
+                        </ImageBrush.Transform>
+                    </ImageBrush>
+                </Rectangle.Fill>
+                <Rectangle.Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="Stroke" Value="{StaticResource ForegroundLightGrayBrush}" />
+                        <Setter Property="StrokeDashArray" Value="5" />
+                        <Setter Property="StrokeDashCap" Value="Round" />
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+
+            <Button Grid.Column="0"
+                    Grid.Row="2"
+                    FontWeight="SemiBold"
+                    Width="310"
+                    BorderThickness="0"
+                    Background="{StaticResource ForegroundPurpleBrush}"
+                    Foreground="{StaticResource ForegroundLightGrayBrush}">
+                UPLOAD
+            </Button>
+            <!--#endregion-->
+
+            <!--#region Image-->
+
+            <Image Grid.Column="1" Grid.RowSpan="3" 
+                   Source="../Assets/Images/zero-two-hair.png" 
+                   Stretch="Uniform"
+                   VerticalAlignment="Bottom"
+                   RenderOptions.BitmapScalingMode="HighQuality" />
+
+            <!--#endregion-->
             
+            <!--#region Manual-->
+            <StackPanel Grid.Column="2"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                <!--#region Title-->
+                <TextBlock 
+                       Text="MANUAL" 
+                       Style="{StaticResource LightGraySemibold}"
+                    Margin="0 10"
+                    TextAlignment="Center"/>
+                <!--#endregion-->
+
+                <!--#region Separator-->
+                <Separator Background="{StaticResource ForegroundLightGrayBrush}"
+                           Width="310"/>
+                <!--#endregion-->
+                
+            </StackPanel>
+
+            <StackPanel 
+                Grid.Column="2" 
+                Grid.Row="1" 
+                Margin="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+                
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="5">
+                        <TextBlock 
+                        Text="ACTIVE" 
+                        Style="{StaticResource LightGrayRegular}"/>
+                        <ComboBox Margin="0 5 0 0" Width="150"/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="CONTRACTS" Style="{StaticResource LightGrayRegular}"/>
+                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="5">
+                        <TextBlock 
+                        Text="OP. WIN" 
+                        Style="{StaticResource LightGrayRegular}"/>
+                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="OP. LOSS" Style="{StaticResource LightGrayRegular}"/>
+                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="5">
+                        <TextBlock 
+                        Text="WIN" 
+                        Style="{StaticResource LightGrayRegular}"/>
+                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="LOSS" Style="{StaticResource LightGrayRegular}"/>
+                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+
+            <Button Grid.Column="2"
+                    Grid.Row="2"
+                    FontWeight="SemiBold"
+                    Width="310"
+                    BorderThickness="0"
+                    Background="{StaticResource ForegroundPurpleBrush}"
+                    Foreground="{StaticResource ForegroundLightGrayBrush}">
+                CREATE
+            </Button>
+
+            <!--#endregion-->
         </Grid>
         <!--#endregion-->
         

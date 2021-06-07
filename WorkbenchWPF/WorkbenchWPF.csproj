@@ -15,7 +15,7 @@
     <None Remove="Assets\Icons\collapse_arrow_50px_gray.png" />
     <None Remove="Assets\Icons\collapse_arrow_50px_purple.png" />
     <None Remove="Assets\Icons\csv_50px.png" />
-    <None Remove="Assets\Icons\csv_50px.png200.png" />
+    <None Remove="Assets\Icons\csv_50px_gray.png" />
     <None Remove="Assets\Icons\decrease_50px.png" />
     <None Remove="Assets\Icons\delete_50px.png" />
     <None Remove="Assets\Icons\delete_50px.pngl.png" />
@@ -54,6 +54,7 @@
     <None Remove="Assets\Icons\subtract_50px.png" />
     <None Remove="Assets\Icons\update_50px.png" />
     <None Remove="Assets\Images\BabyZeroTwo.png" />
+    <None Remove="Assets\Images\zero-two-hair.png" />
     <None Remove="Assets\Images\zero-two.png" />
   </ItemGroup>
 
@@ -90,7 +91,7 @@
     <Resource Include="Assets\Icons\collapse_arrow_50px_gray.png" />
     <Resource Include="Assets\Icons\collapse_arrow_50px_purple.png" />
     <Resource Include="Assets\Icons\csv_50px.png" />
-    <Resource Include="Assets\Icons\csv_50px.png200.png" />
+    <Resource Include="Assets\Icons\csv_50px_gray.png" />
     <Resource Include="Assets\Icons\decrease_50px.png" />
     <Resource Include="Assets\Icons\delete_50px.png" />
     <Resource Include="Assets\Icons\delete_50px.pngl.png" />
@@ -129,6 +130,7 @@
     <Resource Include="Assets\Icons\subtract_50px.png" />
     <Resource Include="Assets\Icons\update_50px.png" />
     <Resource Include="Assets\Images\BabyZeroTwo.png" />
+    <Resource Include="Assets\Images\zero-two-hair.png" />
     <Resource Include="Assets\Images\zero-two.png" />
   </ItemGroup>
 
