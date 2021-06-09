@@ -455,11 +455,14 @@
                         <TextBlock 
                         Text="ACTIVE" 
                         Style="{StaticResource LightGrayRegular}"/>
-                        <ComboBox Margin="0 5 0 0" Width="150"/>
+                        <ComboBox SelectedValue="{Binding ManualComboBox}" SelectedValuePath="Content" Margin="0 5 0 0" Width="150">
+                            <ComboBoxItem Content="WIN" IsSelected="True"/>
+                            <ComboBoxItem Content="DOL"/>
+                        </ComboBox>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="CONTRACTS" Style="{StaticResource LightGrayRegular}"/>
-                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                        <TextBox x:Name="ManualContracts" Style="{StaticResource TextBoxFormManual}"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -468,11 +471,11 @@
                         <TextBlock 
                         Text="OP. WIN" 
                         Style="{StaticResource LightGrayRegular}"/>
-                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                        <TextBox x:Name="ManualOpWin" Style="{StaticResource TextBoxFormManual}"/>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="OP. LOSS" Style="{StaticResource LightGrayRegular}"/>
-                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                        <TextBox x:Name="ManualOpLoss" Style="{StaticResource TextBoxFormManual}"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -481,11 +484,11 @@
                         <TextBlock 
                         Text="WIN" 
                         Style="{StaticResource LightGrayRegular}"/>
-                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                        <TextBox x:Name="ManualWin" Style="{StaticResource TextBoxFormManual}"/>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <TextBlock Text="LOSS" Style="{StaticResource LightGrayRegular}"/>
-                        <TextBox Style="{StaticResource TextBoxFormManual}"/>
+                        <TextBox x:Name="ManualLoss" Style="{StaticResource TextBoxFormManual}"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -493,7 +496,8 @@
             <!--#endregion-->
 
             <!--#region Button-->
-            <Button Grid.Column="2"
+            <Button x:Name="CreateOperationManual" 
+                    Grid.Column="2"
                     Grid.Row="2"
                     FontWeight="SemiBold"
                     Width="310"
