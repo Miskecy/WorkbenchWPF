@@ -261,7 +261,7 @@
                 <RowDefinition Height="45"/>
             </Grid.RowDefinitions>
 
-            <!--Logo-->
+            <!--#region Logo-->
             <Grid Grid.Row="0"
                   Grid.Column="0"
                   Margin="0"
@@ -285,9 +285,9 @@
                     <TextBlock Text="v1.0.0" Style="{StaticResource font_style}" Foreground="#6458FF" Margin="35 5 0 0"/>
                 </StackPanel>
             </Grid>
+            <!--#endregion-->
 
-
-            <!--Menu-->
+            <!--#region Menu-->
             <ListView Grid.Row="1" 
                       Background="Transparent"
                       BorderThickness="0"
@@ -295,7 +295,7 @@
                       Margin="0"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                <!--Dashboard-->
+                <!--#region Dashboard-->
                 <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageDashboard]">
                     <StackPanel Orientation="Horizontal">
                         <Image 
@@ -304,8 +304,9 @@
                             <TextBlock Text="Dashboard" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
                     </StackPanel>
                 </ListViewItem>
+                <!--#endregion-->
 
-                <!--Trades-->
+                <!--#region Trades-->
                 <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageTrade]">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Assets/Icons/dollar_bitcoin_exchange_50px.png" Width="25" Height="25" 
@@ -313,8 +314,9 @@
                         <TextBlock Text="Trade" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
                     </StackPanel>
                 </ListViewItem>
+                <!--#endregion-->
 
-                <!--Learning-->
+                <!--#region Learning-->
                 <ListViewItem cal:Message.Attach="[Event Selected] = [Action ShowPageLearning]">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Assets/Icons/learning_50px.png" Width="25" Height="25" 
@@ -322,8 +324,9 @@
                         <TextBlock Text="Learning" VerticalAlignment="Center" Margin="20 0 0 0" Style="{StaticResource font_style}"/>
                     </StackPanel>
                 </ListViewItem>
+                <!--#endregion-->
 
-                <!--ListView items style template-->
+                <!--#region ListView items style template-->
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Template">
@@ -366,9 +369,12 @@
                         </Setter>                        
                     </Style>                    
                 </ListView.ItemContainerStyle>
+                <!--#endregion-->
+                
             </ListView>
+            <!--#endregion-->
 
-            <!--Button Settings-->
+            <!--#region Button Settings-->
             <Button x:Name="btnSettings" 
                     Grid.Row="3" 
                     Height="45" Width="172" 
@@ -410,6 +416,7 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <!--#endregion-->
 
             <Border Grid.RowSpan="3" BorderThickness="0"/>
         </Grid>
