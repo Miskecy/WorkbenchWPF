@@ -349,30 +349,85 @@
             <!--#endregion-->
 
             <!--#region Content-->
-            <Rectangle Grid.Column="0"
+            <Grid Grid.Column="0"
                        Grid.Row="1"
                        Width="310"
                        Margin="20 0 20 20">
-                <Rectangle.Fill>
-                    <ImageBrush ImageSource="../Assets/Icons/csv_50px_gray.png"  
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="90"/> <!-- 0 / 90 -->
+                </Grid.RowDefinitions>
+                
+                <!--<Rectangle Grid.Row="0"
+                           AllowDrop="True">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="../Assets/Icons/csv_50px_gray.png"  
                                 Stretch="None"
                                 AlignmentX="Center"
                                 AlignmentY="Center"
                                 RenderOptions.BitmapScalingMode="HighQuality"
                                 Viewport="0.35 0.35 0.60 0.60">
-                        <ImageBrush.Transform>
-                            <ScaleTransform ScaleX=".8" ScaleY=".8"/>
-                        </ImageBrush.Transform>
-                    </ImageBrush>
-                </Rectangle.Fill>
-                <Rectangle.Style>
-                    <Style TargetType="Rectangle">
-                        <Setter Property="Stroke" Value="{StaticResource ForegroundLightGrayBrush}" />
-                        <Setter Property="StrokeDashArray" Value="5" />
-                        <Setter Property="StrokeDashCap" Value="Round" />
-                    </Style>
-                </Rectangle.Style>
-            </Rectangle>
+                            <ImageBrush.Transform>
+                                <ScaleTransform ScaleX=".8" ScaleY=".8"/>
+                            </ImageBrush.Transform>
+                        </ImageBrush>
+                    </Rectangle.Fill>
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Stroke" Value="{StaticResource ForegroundLightGrayBrush}" />
+                            <Setter Property="StrokeDashArray" Value="5" />
+                            <Setter Property="StrokeDashCap" Value="Round" />
+                        </Style>
+                    </Rectangle.Style>                    
+                </Rectangle>-->
+                <StackPanel Grid.Row="0" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Background="Transparent">
+                    <Image Source="../Assets/Icons/csv_50px_gray.png" Stretch="Uniform" Width="30" Height="30"></Image>
+                </StackPanel>
+
+                <Rectangle Grid.Row="0"                         
+                           StrokeDashArray="5"
+                           StrokeDashCap="Round"
+                           Height="auto"
+                           AllowDrop="True"
+                           x:Name="GetDropedFile"
+                           Cursor="Hand"
+                           Fill="Transparent">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            
+                            <Setter Property="Stroke" Value="{StaticResource ForegroundLightGrayBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Stroke" Value="{StaticResource ForegroundPurpleBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                       
+                    </Rectangle.Style>
+                </Rectangle>
+
+                <ScrollViewer Grid.Row="1"
+                              HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Hidden"
+                              VerticalContentAlignment="Center">
+
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Drag the files above to auto insert data table!" 
+                                   TextAlignment="Center"
+                                   Style="{StaticResource LightGraySemibold}"
+                                   Margin="10"/>
+                        <ContentControl x:Name="UploadFile"/>                  
+                        
+                    </StackPanel>
+
+                </ScrollViewer>
+
+            </Grid>
             <!--#endregion-->
 
             <!--#region Button-->

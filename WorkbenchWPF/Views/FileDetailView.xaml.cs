@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace WorkbenchWPF.Views
 {
     /// <summary>
-    /// Interaction logic for TradeView.xaml
+    /// Interaction logic for FileDetailView.xaml
     /// </summary>
-    public partial class TradeView : UserControl
+    public partial class FileDetailView : UserControl
     {
-        public TradeView()
+        public FileDetailView()
         {
             InitializeComponent();
-        }        
-    }    
+        }
+    }
 }

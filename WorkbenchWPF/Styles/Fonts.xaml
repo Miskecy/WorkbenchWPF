@@ -13,4 +13,16 @@
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
+    <Style x:Key="PurpleSemibold" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundPurpleBrush}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style x:Key="PurpleRegular" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundPurpleBrush}"/>
+        <Setter Property="FontWeight" Value="Regular"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
 </ResourceDictionary>
