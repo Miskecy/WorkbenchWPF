@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="WorkbenchWPF.Views.FileUploadView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WorkbenchWPF.Views"
+             mc:Ignorable="d" 
+             d:DesignWidth="310" Height="50"
+             Background="Transparent">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ProgressBar.Progress" Color="{StaticResource BackgroundBasePurple}"/>
+        <SolidColorBrush x:Key="ProgressBar.Background" Color="{StaticResource BackgroundDarkGray}"/>
+        <SolidColorBrush x:Key="ProgressBar.Border" Color="{StaticResource BackgroundBasePurple}"/>
+        <Style TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="{StaticResource ProgressBar.Progress}"/>
+            <Setter Property="Background" Value="{StaticResource ProgressBar.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ProgressBar.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="TemplateRoot">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate"/>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                            </PointAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    CornerRadius="5"/>
+                            <Rectangle x:Name="PART_Track"/>
+                            <Grid x:Name="PART_Indicator" 
+                                  ClipToBounds="true" 
+                                  HorizontalAlignment="Left">
+                                <Rectangle x:Name="Indicator" 
+                                           Fill="{TemplateBinding Foreground}" RadiusX="5" RadiusY="5"/>
+                                <Rectangle x:Name="Animation" 
+                                           Fill="{TemplateBinding Foreground}" 
+                                           RenderTransformOrigin="0.5,0.5" RadiusX="5" RadiusY="5">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsIndeterminate" Value="true">
+                                <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard DecelerationRatio="1">
+                            <DoubleAnimation Storyboard.TargetProperty="Value" From="0">
+
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.RowSpan="3" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center">
+            <Image Source="../Assets/Icons/csv_50px.png" Stretch="Uniform" Width="30"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+
+            <TextBlock Style="{StaticResource LightGraySemibold}"
+                       VerticalAlignment="Center"
+                       Text="{Binding Path=FileName, FallbackValue=FileName, TargetNullValue=FileName, Mode=OneWay}"/>
+
+            <TextBlock Style="{StaticResource LightGraySemibold}"
+                       FontSize="10"
+                       Margin="5 0 0 0"
+                       VerticalAlignment="Bottom"
+                       Text="{Binding Path=FileSize, FallbackValue=FileSize, TargetNullValue=FileSize, Mode=OneWay}"/>
+        </StackPanel>
+
+        <ProgressBar x:Name="progressBar"            
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Height="10"
+                     Margin="0 0 5 0"
+                     Foreground="{StaticResource ForegroundPurpleBrush}"
+                     Value="{Binding Path=UploadProgress, Mode=OneWay}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" TextAlignment="Left">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="{StaticResource ForegroundLightGrayBrush}"/>
+                    <Setter Property="Text" Value="{Binding Value, ElementName=progressBar, StringFormat={}{0:#0.00'%' done}}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Value, ElementName=progressBar}" Value="100">
+                            <Setter Property="Text" Value="Upload Complete"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" TextAlignment="Right">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="{StaticResource ForegroundLightGrayBrush}"/>
+                    <Setter Property="Text" Value="{Binding Path=UploadSpeed, StringFormat={}{0}Kbp/s}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Value, ElementName=progressBar}" Value="100">
+                            <Setter Property="Text" Value=""/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+    </Grid>
+</UserControl>

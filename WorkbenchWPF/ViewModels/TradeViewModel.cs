@@ -11,7 +11,7 @@ using WorkbenchWPF.Models;
 
 namespace WorkbenchWPF.ViewModels
 {
-    public class TradeViewModel : Conductor<FileDetailViewModel>.Collection.AllActive
+    public class TradeViewModel : Conductor<FileImportViewModel>.Collection.AllActive
     {
         MongoCRUD db = new("Workbench");
 
@@ -36,16 +36,16 @@ namespace WorkbenchWPF.ViewModels
             }
         }
 
-        private FileDetailViewModel _uploadfile;
+        private FileImportViewModel _uploadfile;
 
-        public FileDetailViewModel UploadFile
+        public FileImportViewModel ImportFile
         {
             get { 
                 return _uploadfile; 
             }
             set { 
                 _uploadfile = value;
-                NotifyOfPropertyChange(() => UploadFile);
+                NotifyOfPropertyChange(() => ImportFile);
             }
         }
 
@@ -100,15 +100,14 @@ namespace WorkbenchWPF.ViewModels
                     //    UploadSpeed = 600
                     //});
 
-                    UploadFile = new FileDetailViewModel()
+                    ImportFile = new FileImportViewModel()
                     {
                         FileName = filename,
                         FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb"),
-                        UploadProgress = 100,
-                        UploadSpeed = 600
+                        FileProgress = 100
                     };
 
-                    Items.Add(UploadFile);
+                    Items.Add(ImportFile);
                 }
             }
         }

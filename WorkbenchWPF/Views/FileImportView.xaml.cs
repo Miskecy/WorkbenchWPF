@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WorkbenchWPF.Views
 {
     /// <summary>
-    /// Interaction logic for FileDetailView.xaml
+    /// Interaction logic for FileImportView.xaml
     /// </summary>
-    public partial class FileDetailView : UserControl
+    public partial class FileImportView : UserControl
     {
-        public FileDetailView()
+        public FileImportView()
         {
             InitializeComponent();
         }

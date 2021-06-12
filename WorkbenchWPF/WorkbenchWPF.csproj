@@ -12,6 +12,9 @@
     <None Remove="Assets\Icons\accounting_50px.pngl.png" />
     <None Remove="Assets\Icons\add_50px.png" />
     <None Remove="Assets\Icons\add_new_50px.png" />
+    <None Remove="Assets\Icons\cancel_50px_red.png" />
+    <None Remove="Assets\Icons\checkmark_50px.png" />
+    <None Remove="Assets\Icons\check_file_50px.png" />
     <None Remove="Assets\Icons\collapse_arrow_50px_gray.png" />
     <None Remove="Assets\Icons\collapse_arrow_50px_purple.png" />
     <None Remove="Assets\Icons\csv_50px.png" />
@@ -20,6 +23,8 @@
     <None Remove="Assets\Icons\delete_50px.png" />
     <None Remove="Assets\Icons\delete_50px.pngl.png" />
     <None Remove="Assets\Icons\delete_50px2.png" />
+    <None Remove="Assets\Icons\delete_50px_red.png" />
+    <None Remove="Assets\Icons\delete_file_50px_red.png" />
     <None Remove="Assets\Icons\dollar_bitcoin_exchange_50px.png" />
     <None Remove="Assets\Icons\dollar_bitcoin_exchange_50px.pngl.png" />
     <None Remove="Assets\Icons\expand_arrow_50px_gray.png" />
@@ -43,6 +48,7 @@
     <None Remove="Assets\Icons\menu_50px.png" />
     <None Remove="Assets\Icons\menu_rounded_50px.png" />
     <None Remove="Assets\Icons\menu_squared_50px.png" />
+    <None Remove="Assets\Icons\minus_50px_red.png" />
     <None Remove="Assets\Icons\more_than_50px.png" />
     <None Remove="Assets\Icons\multichannel_50px.png" />
     <None Remove="Assets\Icons\plus_math_50px.png" />
@@ -88,6 +94,9 @@
     <Resource Include="Assets\Icons\accounting_50px.pngl.png" />
     <Resource Include="Assets\Icons\add_50px.png" />
     <Resource Include="Assets\Icons\add_new_50px.png" />
+    <Resource Include="Assets\Icons\cancel_50px_red.png" />
+    <Resource Include="Assets\Icons\checkmark_50px.png" />
+    <Resource Include="Assets\Icons\check_file_50px.png" />
     <Resource Include="Assets\Icons\collapse_arrow_50px_gray.png" />
     <Resource Include="Assets\Icons\collapse_arrow_50px_purple.png" />
     <Resource Include="Assets\Icons\csv_50px.png" />
@@ -96,9 +105,12 @@
     <Resource Include="Assets\Icons\delete_50px.png" />
     <Resource Include="Assets\Icons\delete_50px.pngl.png" />
     <Resource Include="Assets\Icons\delete_50px2.png" />
+    <Resource Include="Assets\Icons\delete_50px_red.png" />
+    <Resource Include="Assets\Icons\delete_file_50px_red.png" />
     <Resource Include="Assets\Icons\dollar_bitcoin_exchange_50px.png" />
     <Resource Include="Assets\Icons\dollar_bitcoin_exchange_50px.pngl.png" />
     <Resource Include="Assets\Icons\increase_50px_purple.png" />
+    <Resource Include="Assets\Icons\minus_50px_red.png" />
     <Resource Include="Assets\Icons\settings_50px_gray.png" />
     <Resource Include="Assets\Icons\expand_arrow_50px_gray.png" />
     <Resource Include="Assets\Icons\expand_arrow_50px_purple.png" />

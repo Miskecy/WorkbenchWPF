@@ -1,13 +1,8 @@
 ﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WorkbenchWPF.ViewModels
 {
-    public class FileDetailViewModel : Screen
+    public class FileUploadViewModel : Screen
     {
         private string _filename;
         
@@ -41,6 +36,5 @@ namespace WorkbenchWPF.ViewModels
             get { return _uploadspeed; }
             set { _uploadspeed = value; }
         }
-
     }
 }
