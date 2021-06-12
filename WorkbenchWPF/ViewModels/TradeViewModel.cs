@@ -11,7 +11,7 @@ using WorkbenchWPF.Models;
 
 namespace WorkbenchWPF.ViewModels
 {
-    public class TradeViewModel : Conductor<FileImportViewModel>.Collection.AllActive
+    public class TradeViewModel : Screen
     {
         MongoCRUD db = new("Workbench");
 
@@ -36,19 +36,35 @@ namespace WorkbenchWPF.ViewModels
             }
         }
 
-        private FileImportViewModel _uploadfile;
+        //private FileImportViewModel _uploadfile;
 
-        public FileImportViewModel ImportFile
+        //public FileImportViewModel ImportFile
+        //{
+        //    get { 
+        //        return _uploadfile; 
+        //    }
+        //    set { 
+        //        _uploadfile = value;
+        //        NotifyOfPropertyChange(() => ImportFile);
+        //    }
+        //}
+
+        public List<CSVFileModel> ListImports { get; set; }
+
+        private BindableCollection<CSVFileModel> _importFile;
+
+        public BindableCollection<CSVFileModel> ImportFile
         {
-            get { 
-                return _uploadfile; 
+            get 
+            { 
+                return _importFile;
             }
-            set { 
-                _uploadfile = value;
+            set 
+            { 
+                _importFile = value;
                 NotifyOfPropertyChange(() => ImportFile);
             }
         }
-
 
         public TradeViewModel()
         {
@@ -81,6 +97,7 @@ namespace WorkbenchWPF.ViewModels
 
         public void GetDropedFile()
         {
+            ListImports = new List<CSVFileModel>();
             OpenFileDialog f = new() { Multiselect = true };
             bool? response = f.ShowDialog();
             if (response == true)
@@ -90,26 +107,19 @@ namespace WorkbenchWPF.ViewModels
                 for (int i = 0; i < files.Length; i++)
                 {
                     string filename = Path.GetFileName(files[i]);
-                    FileInfo fileinfo = new FileInfo(files[i]);
+                    FileInfo fileinfo = new FileInfo(files[i]);                    
 
-                    //ActivateItemAsync(new FileDetailViewModel()
-                    //{
-                    //    FileName = filename,
-                    //    FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb"),
-                    //    UploadProgress = 100,
-                    //    UploadSpeed = 600
-                    //});
-
-                    ImportFile = new FileImportViewModel()
+                    CSVFileModel fileSelected = new()
                     {
                         FileName = filename,
-                        FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb"),
-                        FileProgress = 100
+                        FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb")
                     };
 
-                    Items.Add(ImportFile);
+                    ListImports.Add(fileSelected);
                 }
             }
+
+            ImportFile = new BindableCollection<CSVFileModel>(ListImports);
         }
 
         private void GetOperationsData()
@@ -117,5 +127,11 @@ namespace WorkbenchWPF.ViewModels
             Operation = new BindableCollection<OperationModel>(db.LoadData<OperationModel>("trades"));
         }
 
+    }
+
+    public class CSVFileModel
+    {
+        public string FileName { get; set; }
+        public string FileSize { get; set; }
     }
 }
