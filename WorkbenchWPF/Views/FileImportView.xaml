@@ -113,7 +113,7 @@
                     Orientation="Horizontal"
                     VerticalAlignment="Center">
 
-            <TextBlock Style="{StaticResource LightGraySemibold}"
+            <TextBlock MaxWidth="180" Style="{StaticResource LightGraySemibold}"
                        VerticalAlignment="Bottom"
                        Text="{Binding Path=FileName, FallbackValue=FileName, TargetNullValue=FileName, Mode=OneWay}"/>
 

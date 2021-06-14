@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cal="http://caliburnmicro.com"
              xmlns:local="clr-namespace:WorkbenchWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="713" d:DesignWidth="1028">
@@ -371,12 +372,13 @@
                            StrokeDashCap="Round"
                            Height="auto"
                            AllowDrop="True"
-                           x:Name="GetDropedFile"
+                           cal:Message.Attach="[Event Selected] = [Action GetDropedFileByDrop]"
+                           x:Name="GetDropedFileByClick"
                            Cursor="Hand"
                            Fill="Transparent">
+                    
                     <Rectangle.Style>
-                        <Style TargetType="Rectangle">
-                            
+                        <Style TargetType="Rectangle">                            
                             <Setter Property="Stroke" Value="{StaticResource ForegroundLightGrayBrush}"/>
                             <Style.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">

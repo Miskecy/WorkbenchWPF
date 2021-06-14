@@ -2,10 +2,8 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
-using System.Windows.Controls;
+using System.Windows;
 using WorkbenchWPF.Helpers;
 using WorkbenchWPF.Models;
 
@@ -36,24 +34,11 @@ namespace WorkbenchWPF.ViewModels
             }
         }
 
-        //private FileImportViewModel _uploadfile;
+        public List<ImportFileModel> ListImports { get; set; }
 
-        //public FileImportViewModel ImportFile
-        //{
-        //    get { 
-        //        return _uploadfile; 
-        //    }
-        //    set { 
-        //        _uploadfile = value;
-        //        NotifyOfPropertyChange(() => ImportFile);
-        //    }
-        //}
+        private BindableCollection<ImportFileModel> _importFile;
 
-        public List<CSVFileModel> ListImports { get; set; }
-
-        private BindableCollection<CSVFileModel> _importFile;
-
-        public BindableCollection<CSVFileModel> ImportFile
+        public BindableCollection<ImportFileModel> ImportFile
         {
             get 
             { 
@@ -95,9 +80,9 @@ namespace WorkbenchWPF.ViewModels
             GetOperationsData();
         }
 
-        public void GetDropedFile()
+        public void GetDropedFileByClick()
         {
-            ListImports = new List<CSVFileModel>();
+            ListImports = new List<ImportFileModel>();
             OpenFileDialog f = new() { Multiselect = true };
             bool? response = f.ShowDialog();
             if (response == true)
@@ -107,9 +92,9 @@ namespace WorkbenchWPF.ViewModels
                 for (int i = 0; i < files.Length; i++)
                 {
                     string filename = Path.GetFileName(files[i]);
-                    FileInfo fileinfo = new FileInfo(files[i]);                    
+                    FileInfo fileinfo = new FileInfo(files[i]);
 
-                    CSVFileModel fileSelected = new()
+                    ImportFileModel fileSelected = new()
                     {
                         FileName = filename,
                         FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb")
@@ -119,7 +104,33 @@ namespace WorkbenchWPF.ViewModels
                 }
             }
 
-            ImportFile = new BindableCollection<CSVFileModel>(ListImports);
+            ImportFile = new BindableCollection<ImportFileModel>(ListImports);
+        }
+
+        public void GetDropedFileByDrop()
+        {
+            MessageBox.Show(string.Format("Hello!"));
+            //if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            //{
+            //    ListImports = new List<ImportFileModel>();
+            //    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            //    for (int i = 0; i < files.Length; i++)
+            //    {
+            //        string filename = Path.GetFileName(files[i]);
+            //        FileInfo fileinfo = new FileInfo(files[i]);
+
+            //        ImportFileModel fileSelected = new()
+            //        {
+            //            FileName = filename,
+            //            FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb")
+            //        };
+
+            //        ListImports.Add(fileSelected);
+            //    }
+
+            //    ImportFile = new BindableCollection<ImportFileModel>(ListImports);
+            //}
         }
 
         private void GetOperationsData()
@@ -127,11 +138,5 @@ namespace WorkbenchWPF.ViewModels
             Operation = new BindableCollection<OperationModel>(db.LoadData<OperationModel>("trades"));
         }
 
-    }
-
-    public class CSVFileModel
-    {
-        public string FileName { get; set; }
-        public string FileSize { get; set; }
     }
 }
