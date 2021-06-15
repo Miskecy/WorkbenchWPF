@@ -424,7 +424,8 @@
                     Grid.Row="2"
                     FontWeight="SemiBold"
                     Width="310"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    x:Name="GetCsvData">
                 UPLOAD
 
                 <Button.Style>
