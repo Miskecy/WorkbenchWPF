@@ -135,24 +135,8 @@ namespace WorkbenchWPF.ViewModels
         }
 
         public void GetCsvData()
-        {
-            //List<TrydCsv> li = new List<TrydCsv>();
-
-            //CsvDataImport csv = new CsvDataImport();
-            //OpenFileDialog f = new() { Multiselect = false };
-            //bool? response = f.ShowDialog();
-            //if (response == true)
-            //{
-            //    string[] files = f.FileNames;
-            //    for (int i = 0; i < files.Length; i++)
-            //    {
-            //        FileInfo fileInfo = new FileInfo(files[i]);
-            //        li = csv.GetCsvData<TrydCsv>(fileInfo.ToString());
-            //        //MessageBox.Show(string.Format("{0}", fileInfo));
-            //    }
-            //}
-
-            TrydTradesCSV csvHelper = new();
+        {            
+            CSVHelper csvHelper = new();
 
             OpenFileDialog f = new() { Multiselect = false };
             bool? response = f.ShowDialog();
@@ -161,19 +145,16 @@ namespace WorkbenchWPF.ViewModels
                 string[] files = f.FileNames;
                 for (int i = 0; i < files.Length; i++)
                 {
-                    FileInfo fileInfo = new FileInfo(files[i]);
+                    FileInfo fileInfo = new FileInfo(files[i]);                    
 
-                    List<TrydTradesCSV> trades = csvHelper.MakeObj(fileInfo.ToString());
+                    List<TrydCSVModel> results = csvHelper.LoadDataFile<TrydCSVModel>(fileInfo.ToString());
 
-                    foreach(var item in trades)
+                    foreach(var item in results)
                     {
-                        Debug.Write(string.Format("{0}-{1}-{2}-{3}\n", item.Papel, item.Abertura, item.Fechamento, item.Tempo));
+                        Debug.Write(item);
                     }
                 }
-            }
-            
-
-            
+            }          
         }
 
         private void GetOperationsData()
