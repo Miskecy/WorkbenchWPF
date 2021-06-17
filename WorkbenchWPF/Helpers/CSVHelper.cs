@@ -21,15 +21,15 @@ namespace WorkbenchWPF.Helpers
             {
                 throw new IndexOutOfRangeException("The file was either empty or missing.");
             }
-
-            var headers = lines[0].Split(',');
+            
+            var headers = lines[0].Split('"');
 
             lines.RemoveAt(0);
 
             foreach (var line in lines)
             {
                 entry = new T();
-                var vals = line.Split(',');
+                var vals = line.Split('"');
 
                 if(!string.IsNullOrEmpty(line))
                 {
