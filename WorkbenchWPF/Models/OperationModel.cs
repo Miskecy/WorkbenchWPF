@@ -13,9 +13,15 @@ namespace WorkbenchWPF.Models
         public int OpWin { get; set; }
         public int OpLoss { get; set; }
         public int Contract { get; set; }
-        public double WinRate { get; set; }
-        public int Win { get; set; }
-        public int Loss { get; set; }
-        public double Profit { get; set; }
+        public decimal WinRate { get; set; }
+        public decimal Win { get; set; }
+        public decimal Loss { get; set; }
+        public decimal Profit { get; set; }
+
+        public override string ToString()
+        {
+            string str = $"{Id}\n{IsWorst}\n{Date}\n{Active}\n{OpWin}\n{OpLoss}\n{Contract}\n{WinRate}\n{Win}\n{Loss}\n{Profit}";
+            return str;
+        }
     }
 }

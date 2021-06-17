@@ -9,7 +9,6 @@ namespace WorkbenchWPF.Models
 {
     public class TrydCSVModel
     {
-        //CSV Tryd
         public string Security { get; set; }
         public string Open { get; set; }
         public string Close { get; set; }
@@ -29,21 +28,6 @@ namespace WorkbenchWPF.Models
         public string TBT { get; set; }
         public string MPE { get; set; }
         public string MNE { get; set; }
-
-        //Custom
-
-        [BsonId]
-        public Guid Id { get; set; }
-        public bool IsWorst { get; set; }
-        //public DateTime Date { get; set; }
-        public string Active { get; set; }
-        public int OpWin { get; set; }
-        public int OpLoss { get; set; }
-        public int Contracts { get; set; }
-        public double WinRate { get; set; }
-        public int Win { get; set; }
-        public int Loss { get; set; }
-        public double Profit { get; set; }
 
         public override string ToString()
         {

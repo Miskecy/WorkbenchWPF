@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using WorkbenchWPF.Helpers;
@@ -13,16 +14,17 @@ namespace WorkbenchWPF.ViewModels
     public class TradeViewModel : Screen
     {
         MongoCRUD db = new("Workbench");
+        Utils util = new();
 
         public string ManualComboBox { get; set; }
-        public bool ManualIsWorst { get; set; }
-        public string ManualContracts { get; set; }
-        public string ManualOpWin { get; set; }
-        public string ManualOpLoss { get; set; }
-        public double ManualWinrate { get; set; }
-        public string ManualWin { get; set; }
-        public string ManualLoss { get; set; }
-        public double ManualProfit { get; set; }
+        public bool IsWorst { get; set; }
+        public string Contracts { get; set; }
+        public string OpWin { get; set; }
+        public string OpLoss { get; set; }
+        public decimal Winrate { get; set; }
+        public string Win { get; set; }
+        public string Loss { get; set; }
+        public decimal Profit { get; set; }
 
         public BindableCollection<OperationModel> _operation;
         public BindableCollection<OperationModel> Operation
@@ -59,23 +61,80 @@ namespace WorkbenchWPF.ViewModels
 
         public void CreateOperationManual()
         {
-            ManualIsWorst = ManualProfit <= 0;
-            ManualWinrate = (double.Parse(ManualOpWin) / ((double.Parse(ManualOpLoss) + double.Parse(ManualOpWin)))) * 100;
-            ManualProfit = double.Parse(ManualWin) - double.Parse(ManualLoss);
+            IsWorst = Profit <= 0;
+            Winrate = (util.StringToDecimal(OpWin) / ((util.StringToDecimal(OpLoss) + util.StringToDecimal(OpWin)))) * 100;
+            Profit = util.StringToDecimal(OpWin) - util.StringToDecimal(OpLoss);
 
             OperationModel record = new()
             {
-                IsWorst = ManualIsWorst,
+                IsWorst = IsWorst,
                 Date = new DateTime(2077, 07, 07, 0, 0, 0, DateTimeKind.Utc),
                 Active = ManualComboBox,
-                OpWin = int.Parse(ManualOpWin),
-                OpLoss = int.Parse(ManualOpLoss),
-                Contract = int.Parse(ManualContracts),
-                WinRate = ManualWinrate,
-                Win = int.Parse(ManualWin),
-                Loss = int.Parse(ManualLoss),
-                Profit = ManualProfit
+                OpWin = int.Parse(OpWin),
+                OpLoss = int.Parse(OpLoss),
+                Contract = int.Parse(Contracts),
+                WinRate = Winrate,
+                Win = int.Parse(Win),
+                Loss = int.Parse(Loss),
+                Profit = Profit
             };
+
+            db.CreateOne("trades", record);
+            GetOperationsData();
+        }
+
+        public void CreateOperationAutomatic(string filePath)
+        {
+            CSVHelper csvHelper = new();
+            List<TrydCSVModel> csvData = csvHelper.LoadDataFile<TrydCSVModel>(filePath);
+
+            int opWin = 0;
+            int opLoss = 0;
+            decimal win = 0;
+            decimal loss = 0;
+            int contracts = 0;
+            string active = "";
+            bool isWorst = false;
+            decimal winrate = 0;
+            decimal profit = 0;
+
+            foreach (var item in csvData)
+            {
+                decimal result = util.StringToDecimal(item.NetTotRes);
+                Debug.WriteLine(result);
+                if ( result < 0)
+                {
+                    loss -= result;
+                    opLoss++;
+                    
+                } 
+                else
+                {
+                    win += result;                    
+                    opWin++;
+                }
+                active = item.Security;
+                winrate = util.CalcWinrate(opWin, opLoss);
+                contracts += util.StringToInteger(item.Qtty);
+                profit = win - loss;
+                isWorst = profit <= 0;
+            }
+
+            OperationModel record = new()
+            {
+                IsWorst = isWorst,
+                Date = DateTime.UtcNow,
+                Active = active,
+                OpWin = opWin,
+                OpLoss = opLoss,
+                Contract = contracts,
+                WinRate = winrate,
+                Win = win,
+                Loss = loss,
+                Profit = profit
+            };
+
+            Debug.WriteLine(record);
 
             db.CreateOne("trades", record);
             GetOperationsData();
@@ -145,14 +204,16 @@ namespace WorkbenchWPF.ViewModels
                 string[] files = f.FileNames;
                 for (int i = 0; i < files.Length; i++)
                 {
-                    FileInfo fileInfo = new FileInfo(files[i]);                    
+                    FileInfo fileInfo = new FileInfo(files[i]);
 
-                    List<TrydCSVModel> results = csvHelper.LoadDataFile<TrydCSVModel>(fileInfo.ToString());
+                    //List<TrydCSVModel> results = csvHelper.LoadDataFile<TrydCSVModel>(fileInfo.ToString());
 
-                    foreach(var item in results)
-                    {
-                        Debug.Write(item);
-                    }
+                    //foreach(var item in results)
+                    //{
+                    //    Debug.Write(item);
+                    //}
+
+                    CreateOperationAutomatic(fileInfo.ToString());
                 }
             }          
         }
