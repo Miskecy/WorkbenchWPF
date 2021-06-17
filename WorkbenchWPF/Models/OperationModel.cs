@@ -8,7 +8,7 @@ namespace WorkbenchWPF.Models
         [BsonId]
         public Guid Id { get; set; }
         public bool IsWorst { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
         public string Active { get; set; }
         public int OpWin { get; set; }
         public int OpLoss { get; set; }

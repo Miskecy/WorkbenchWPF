@@ -8,25 +8,98 @@ using System.IO;
 using System.Windows;
 using WorkbenchWPF.Helpers;
 using WorkbenchWPF.Models;
+using WorkbenchWPF.Structs;
 
 namespace WorkbenchWPF.ViewModels
 {
     public class TradeViewModel : Screen
     {
+        #region instances
+
         MongoCRUD db = new("Workbench");
         Utils util = new();
 
-        public string ManualComboBox { get; set; }
-        public bool IsWorst { get; set; }
-        public string Contracts { get; set; }
-        public string OpWin { get; set; }
-        public string OpLoss { get; set; }
-        public decimal Winrate { get; set; }
-        public string Win { get; set; }
-        public string Loss { get; set; }
-        public decimal Profit { get; set; }
+        #endregion
+
+        #region TextBox Properties
+        private string _comboBoxActive;
+        private string _textBoxContracts;
+        private string _textBoxOpWin;
+        private string _textBoxOpLoss;
+        private string _textBoxWin;
+        private string _textBoxLoss;
+
+        public string ComboBoxActive
+        {
+            get { return _comboBoxActive; }
+            set { _comboBoxActive = value; }
+        }
+
+        public string TextBoxContracts
+        {
+            get 
+            { 
+                return _textBoxContracts; 
+            }
+            set
+            {
+                _textBoxContracts = value;
+                NotifyOfPropertyChange(() => TextBoxContracts);
+            }
+        }
+
+        public string TextBoxOpWin
+        {
+            get
+            {
+                return _textBoxOpWin;
+            }
+            set
+            {
+                _textBoxOpWin = value;
+                NotifyOfPropertyChange(() => TextBoxOpWin);
+            }
+        }
+
+        public string TextBoxOpLoss
+        {
+            get 
+            { 
+                return _textBoxOpLoss; 
+            }
+            set 
+            { 
+                _textBoxOpLoss = value; 
+                NotifyOfPropertyChange(() => TextBoxOpLoss);
+            }
+        }
+
+        public string TextBoxWin
+        {
+            get 
+            { 
+                return _textBoxWin; 
+            }
+            set 
+            { 
+                _textBoxWin = value; 
+                NotifyOfPropertyChange(() => TextBoxWin); 
+            }
+        }
+
+        public string TextBoxLoss
+        {
+            get { return _textBoxLoss; }
+            set { _textBoxLoss = value; NotifyOfPropertyChange(() => TextBoxLoss); }
+        }
+
+        #endregion
+
+        #region Bindables Collection
 
         public BindableCollection<OperationModel> _operation;
+        private BindableCollection<ImportFileModel> _importFile;
+
         public BindableCollection<OperationModel> Operation
         {
             get { return _operation; }
@@ -36,11 +109,7 @@ namespace WorkbenchWPF.ViewModels
                 NotifyOfPropertyChange(() => Operation);
             }
         }
-
-        public List<ImportFileModel> ListImports { get; set; }
-
-        private BindableCollection<ImportFileModel> _importFile;
-
+        public List<ImportFileModel> ListImports { get; set; }        
         public BindableCollection<ImportFileModel> ImportFile
         {
             get 
@@ -54,92 +123,117 @@ namespace WorkbenchWPF.ViewModels
             }
         }
 
+        #endregion
+
         public TradeViewModel()
         {
             GetOperationsData();
-        }        
+        }
 
+        #region Methods to insert data into database
+
+        #region Manual
         public void CreateOperationManual()
         {
-            IsWorst = Profit <= 0;
-            Winrate = (util.StringToDecimal(OpWin) / ((util.StringToDecimal(OpLoss) + util.StringToDecimal(OpWin)))) * 100;
-            Profit = util.StringToDecimal(OpWin) - util.StringToDecimal(OpLoss);
+            decimal Profit = util.StringToDecimal(TextBoxWin) - util.StringToDecimal(TextBoxLoss);
+            OperationStoreData store = new()
+            {
+                IsWorst = Profit <= 0,
+                Active = ComboBoxActive,
+                OpWin = util.StringToInteger(TextBoxOpWin),
+                OpLoss = util.StringToInteger(TextBoxOpLoss),
+                Winrate = util.CalcWinrate(util.StringToDecimal(TextBoxOpWin), util.StringToDecimal(TextBoxOpLoss)),
+                Win = util.StringToDecimal(TextBoxWin),
+                Loss = util.StringToDecimal(TextBoxLoss),
+                Contracts = util.StringToInteger(TextBoxContracts),
+                Profit = Profit
+            };
 
             OperationModel record = new()
             {
-                IsWorst = IsWorst,
-                Date = new DateTime(2077, 07, 07, 0, 0, 0, DateTimeKind.Utc),
-                Active = ManualComboBox,
-                OpWin = int.Parse(OpWin),
-                OpLoss = int.Parse(OpLoss),
-                Contract = int.Parse(Contracts),
-                WinRate = Winrate,
-                Win = int.Parse(Win),
-                Loss = int.Parse(Loss),
-                Profit = Profit
+                IsWorst = store.IsWorst,
+                Date = DateTime.UtcNow,
+                Active = store.Active,
+                OpWin = store.OpWin,
+                OpLoss = store.OpLoss,
+                Contract = store.Contracts,
+                WinRate = store.Winrate,
+                Win = store.Win,
+                Loss = store.Loss,
+                Profit = store.Profit
             };
 
             db.CreateOne("trades", record);
             GetOperationsData();
-        }
 
+            TextBoxWin = "";
+            TextBoxLoss = "";
+            TextBoxOpWin = "";
+            TextBoxOpLoss = "";
+            TextBoxContracts = "";
+        }
+        #endregion
+
+        #region Automatic
         public void CreateOperationAutomatic(string filePath)
         {
             CSVHelper csvHelper = new();
             List<TrydCSVModel> csvData = csvHelper.LoadDataFile<TrydCSVModel>(filePath);
-
-            int opWin = 0;
-            int opLoss = 0;
-            decimal win = 0;
-            decimal loss = 0;
-            int contracts = 0;
-            string active = "";
-            bool isWorst = false;
-            decimal winrate = 0;
-            decimal profit = 0;
+            OperationStoreData store = new() {
+                IsWorst = false,
+                Active = "FUTURE",
+                OpWin = 0,
+                OpLoss = 0,
+                Winrate = 0m,
+                Win = 0m,
+                Loss = 0m,
+                Contracts = 0,
+                Profit = 0m
+            };            
 
             foreach (var item in csvData)
             {
                 decimal result = util.StringToDecimal(item.NetTotRes);
-                Debug.WriteLine(result);
                 if ( result < 0)
                 {
-                    loss -= result;
-                    opLoss++;
+                    store.Loss -= result;
+                    store.OpLoss++;
                     
                 } 
                 else
                 {
-                    win += result;                    
-                    opWin++;
+                    store.Win += result;                    
+                    store.OpWin++;
                 }
-                active = item.Security;
-                winrate = util.CalcWinrate(opWin, opLoss);
-                contracts += util.StringToInteger(item.Qtty);
-                profit = win - loss;
-                isWorst = profit <= 0;
+                store.Active = item.Security;
+                store.Winrate = util.CalcWinrate(store.OpWin, store.OpWin);
+                store.Contracts += util.StringToInteger(item.Qtty);
+                store.Profit = store.Win - store.Loss;
+                store.IsWorst = store.Profit <= 0;
             }
 
             OperationModel record = new()
             {
-                IsWorst = isWorst,
+                IsWorst = store.IsWorst,
                 Date = DateTime.UtcNow,
-                Active = active,
-                OpWin = opWin,
-                OpLoss = opLoss,
-                Contract = contracts,
-                WinRate = winrate,
-                Win = win,
-                Loss = loss,
-                Profit = profit
+                Active = store.Active,
+                OpWin = store.OpWin,
+                OpLoss = store.OpLoss,
+                Contract = store.Contracts,
+                WinRate = store.Winrate,
+                Win = store.Win,
+                Loss = store.Loss,
+                Profit = store.Profit
             };
-
-            Debug.WriteLine(record);
 
             db.CreateOne("trades", record);
             GetOperationsData();
         }
+        #endregion
 
+        #endregion
+
+        #region Methods to process files
         public void GetDropedFileByClick()
         {
             ListImports = new List<ImportFileModel>();
@@ -192,6 +286,8 @@ namespace WorkbenchWPF.ViewModels
             //    ImportFile = new BindableCollection<ImportFileModel>(ListImports);
             //}
         }
+
+        #endregion
 
         public void GetCsvData()
         {            

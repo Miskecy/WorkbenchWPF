@@ -9,17 +9,22 @@ namespace WorkbenchWPF.Helpers
 {
     public class Utils
     {
+        private string StringQuotes(string str)
+        {
+            // 1.500,00
+            return str.Replace(".", "").Replace(",", ".");
+        }
 
-        public decimal StringToDecimal(string text)
+        public decimal StringToDecimal(string str)
         {            
             try
             {
-                return Convert.ToDecimal(text, CultureInfo.InvariantCulture);
+                return Convert.ToDecimal(StringQuotes(str), CultureInfo.InvariantCulture);
             }
             catch
             {
                 decimal result;
-                decimal.TryParse(text, out result);
+                decimal.TryParse(StringQuotes(str), out result);
                 return result;
             }
         }
