@@ -20,6 +20,12 @@ namespace WorkbenchWPF.Helpers
             collection.InsertOne(data);
         }
 
+        public void CreateMany<T>(string table, List<T> data)
+        {
+            var collection = _db.GetCollection<T>(table);
+            collection.InsertMany(data);
+        }
+
         public List<T> LoadData<T>(string table)
         {
             var collection = _db.GetCollection<T>(table);
