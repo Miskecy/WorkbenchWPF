@@ -12,35 +12,18 @@ namespace WorkbenchWPF.Helpers
         private string StringQuotes(string str)
         {
             // 1.500,00
-            return str.Replace(".", "").Replace(",", ".");
+            if (str.Contains(",")) return str.Replace(".", "").Replace(",", ".");
+            else return str;
         }
 
         public decimal StringToDecimal(string str)
-        {            
-            try
-            {
-                return Convert.ToDecimal(StringQuotes(str), CultureInfo.InvariantCulture);
-            }
-            catch
-            {
-                decimal result;
-                decimal.TryParse(StringQuotes(str), out result);
-                return result;
-            }
+        {
+            return Convert.ToDecimal(StringQuotes(str), CultureInfo.InvariantCulture);
         }
 
-        public int StringToInteger(string text)
+        public int StringToInteger(string str)
         {
-            try
-            {
-                return Convert.ToInt32(text);
-            }
-            catch
-            {
-                int result;
-                int.TryParse(text, out result);
-                return result;
-            }
+            return Convert.ToInt32(str);
         }
 
         public decimal CalcWinrate(decimal win, decimal loss)
