@@ -79,7 +79,7 @@
             <RowDefinition Height="45"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="45"/>
-            <RowDefinition MinHeight="300" Height="auto" MaxHeight="300"/>
+            <RowDefinition MinHeight="0" Height="auto" MaxHeight="300"/>
         </Grid.RowDefinitions>
 
         <DataGrid x:Name="Operation" Grid.RowSpan="2">
@@ -312,7 +312,7 @@
         <Grid x:Name="BottomBar" 
               Grid.Row="3" 
               Grid.Column="0" Grid.ColumnSpan="10" 
-              MaxHeight="300" Height="300" MinHeight="0">
+              MaxHeight="300" Height="0" MinHeight="0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -371,9 +371,10 @@
                            StrokeDashArray="5"
                            StrokeDashCap="Round"
                            Height="auto"
-                           AllowDrop="True"
-                           cal:Message.Attach="[Event Selected] = [Action GetDropedFileByDrop]"
-                           x:Name="GetDropedFileByClick"
+                           AllowDrop="True"                           
+                           cal:Message.Attach="[Event Drop] = [Action GetFileByDrop($eventArgs)];
+                                               [Event DragOver] = [Action GetDragOverFile($eventArgs)];
+                                               [Event MouseLeftButtonDown] = [Action GetFileByClick]"
                            Cursor="Hand"
                            Fill="Transparent">
                     
@@ -400,7 +401,7 @@
                         <TextBlock Text="Drag the files above to auto insert data table!" 
                                    TextAlignment="Center"
                                    Style="{StaticResource LightGraySemibold}"
-                                   Margin="10"/>
+                                   Margin="0 0 0 15"/>
 
                         <!--<ContentControl x:Name="ImportFile"/>-->
 
@@ -426,7 +427,7 @@
                     Width="310"
                     BorderThickness="0"
                     x:Name="GetCsvData">
-                UPLOAD
+                IMPORT
 
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">

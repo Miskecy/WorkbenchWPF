@@ -14,10 +14,18 @@ namespace WorkbenchWPF.Helpers
             _db = client.GetDatabase(database);
         }
 
-        public void CreateOne<T>(string table, T data)
+        public bool CreateOne<T>(string table, T data)
         {
-            var collection = _db.GetCollection<T>(table);
-            collection.InsertOne(data);
+            try
+            {
+                var collection = _db.GetCollection<T>(table);
+                collection.InsertOne(data);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }   
         }
 
         public void CreateMany<T>(string table, List<T> data)

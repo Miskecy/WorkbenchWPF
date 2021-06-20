@@ -3,7 +3,6 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Windows;
 using WorkbenchWPF.Helpers;
@@ -22,6 +21,7 @@ namespace WorkbenchWPF.ViewModels
         #endregion
 
         #region TextBox Properties
+
         private string _comboBoxActive;
         private string _textBoxContracts;
         private string _textBoxOpWin;
@@ -31,8 +31,14 @@ namespace WorkbenchWPF.ViewModels
 
         public string ComboBoxActive
         {
-            get { return _comboBoxActive; }
-            set { _comboBoxActive = value; }
+            get 
+            { 
+                return _comboBoxActive; 
+            }
+            set 
+            { 
+                _comboBoxActive = value; 
+            }
         }
 
         public string TextBoxContracts
@@ -95,10 +101,9 @@ namespace WorkbenchWPF.ViewModels
 
         #endregion
 
-        #region Bindables Collection
-
-        public BindableCollection<OperationModel> _operation;
+        private BindableCollection<OperationModel> _operation;
         private BindableCollection<ImportFileModel> _importFile;
+        private List<ImportFileModel> _listImports;
 
         public BindableCollection<OperationModel> Operation
         {
@@ -108,8 +113,21 @@ namespace WorkbenchWPF.ViewModels
                 _operation = value;
                 NotifyOfPropertyChange(() => Operation);
             }
+        }        
+
+        public List<ImportFileModel> ListImports
+        {
+            get 
+            { 
+                return _listImports; 
+            }
+            set 
+            { 
+                _listImports = value;
+                NotifyOfPropertyChange(() => ListImports);
+            }
         }
-        public List<ImportFileModel> ListImports { get; set; }        
+
         public BindableCollection<ImportFileModel> ImportFile
         {
             get 
@@ -123,11 +141,10 @@ namespace WorkbenchWPF.ViewModels
             }
         }
 
-        #endregion
-
         public TradeViewModel()
         {
             GetOperationsData();
+            ListImports = new();
         }
 
         #region Methods to insert data into database
@@ -175,7 +192,7 @@ namespace WorkbenchWPF.ViewModels
         #endregion
 
         #region Automatic
-        public void CreateOperationAutomatic(string filePath)
+        public bool CreateOperationAutomatic(string filePath)
         {
             CSVHelper csvHelper = new();
             List<TrydCSVModel> csvData = csvHelper.LoadDataFile<TrydCSVModel>(filePath);
@@ -194,11 +211,11 @@ namespace WorkbenchWPF.ViewModels
             foreach (var item in csvData)
             {
                 decimal result = util.StringToDecimal(item.NetTotRes);
+                Debug.WriteLine(result);
                 if ( result < 0)
                 {
                     store.Loss -= result;
-                    store.OpLoss++;
-                    
+                    store.OpLoss++;                    
                 } 
                 else
                 {
@@ -226,32 +243,65 @@ namespace WorkbenchWPF.ViewModels
                 Profit = store.Profit
             };
 
-            db.CreateOne("trades", record);
-            GetOperationsData();
+            return db.CreateOne("trades", record);         
         }
         #endregion
 
         #endregion
 
         #region Methods to process files
-        public void GetDropedFileByClick()
+        public void GetFileByClick()
         {
-            ListImports = new List<ImportFileModel>();
-            OpenFileDialog f = new() { Multiselect = true };
-            bool? response = f.ShowDialog();
-            if (response == true)
-            {
-                string[] files = f.FileNames;
+            ListImports.RemoveAll(x => x.IsImported);
 
-                for (int i = 0; i < files.Length; i++)
+            OpenFileDialog f = new() { Multiselect = true, Filter = "CSV | *.csv" };
+            bool? response = f.ShowDialog();
+            if (!response == true) return;
+
+            string[] files = f.FileNames;
+
+            foreach (var file in files)
+            {
+                string filename = Path.GetFileName(file);
+                FileInfo fileinfo = new FileInfo(file);
+
+                ImportFileModel fileSelected = new()
                 {
-                    string filename = Path.GetFileName(files[i]);
-                    FileInfo fileinfo = new FileInfo(files[i]);
+                    FileName = filename,
+                    FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb"),
+                    FileProgress = 0,
+                    FilePath = fileinfo.ToString(),
+                    IsImported = false
+                };
+
+                ListImports.Add(fileSelected);
+            }
+            ImportFile = new BindableCollection<ImportFileModel>(ListImports);            
+        }
+
+        public void GetFileByDrop(DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+            ListImports.RemoveAll(x => x.IsImported);
+
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach(var file in files)
+            {
+                var ext = Path.GetExtension(file);
+                if (ext.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    string filename = Path.GetFileName(file);
+                    FileInfo fileinfo = new FileInfo(file);
 
                     ImportFileModel fileSelected = new()
                     {
                         FileName = filename,
-                        FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb")
+                        FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb"),
+                        FileProgress = 0,
+                        FilePath = fileinfo.ToString(),
+                        IsImported = false
                     };
 
                     ListImports.Add(fileSelected);
@@ -261,57 +311,47 @@ namespace WorkbenchWPF.ViewModels
             ImportFile = new BindableCollection<ImportFileModel>(ListImports);
         }
 
-        public void GetDropedFileByDrop()
+        public void GetDragOverFile(DragEventArgs e)
         {
-            MessageBox.Show(string.Format("Hello!"));
-            //if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            //{
-            //    ListImports = new List<ImportFileModel>();
-            //    string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
 
-            //    for (int i = 0; i < files.Length; i++)
-            //    {
-            //        string filename = Path.GetFileName(files[i]);
-            //        FileInfo fileinfo = new FileInfo(files[i]);
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            //        ImportFileModel fileSelected = new()
-            //        {
-            //            FileName = filename,
-            //            FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb")
-            //        };
+            foreach (var file in files)
+            {
+                var ext = Path.GetExtension(file);
+                if (ext.Equals(".csv", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Debug.WriteLine("CSV");
+                }
+            }
+        }
 
-            //        ListImports.Add(fileSelected);
-            //    }
+        public void GetCsvData()
+        {
+            ListImports.RemoveAll(x => x.IsImported);
 
-            //    ImportFile = new BindableCollection<ImportFileModel>(ListImports);
-            //}
+            if (ListImports.Count > 0)
+            {
+                foreach (var item in ListImports)
+                {
+                    if (CreateOperationAutomatic(item.FilePath))
+                    {
+
+                        item.FileProgress = 100;
+                        item.IsImported = true;
+                        GetImportFileList();
+                        GetOperationsData();
+                    }
+                }
+            }
         }
 
         #endregion
 
-        public void GetCsvData()
-        {            
-            CSVHelper csvHelper = new();
-
-            OpenFileDialog f = new() { Multiselect = false };
-            bool? response = f.ShowDialog();
-            if (response == true)
-            {
-                string[] files = f.FileNames;
-                for (int i = 0; i < files.Length; i++)
-                {
-                    FileInfo fileInfo = new FileInfo(files[i]);
-
-                    //List<TrydCSVModel> results = csvHelper.LoadDataFile<TrydCSVModel>(fileInfo.ToString());
-
-                    //foreach(var item in results)
-                    //{
-                    //    Debug.Write(item);
-                    //}
-
-                    CreateOperationAutomatic(fileInfo.ToString());
-                }
-            }          
+        private void GetImportFileList()
+        {
+            ImportFile = new BindableCollection<ImportFileModel>(ListImports);
         }
 
         private void GetOperationsData()
