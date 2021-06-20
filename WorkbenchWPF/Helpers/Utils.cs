@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WorkbenchWPF.Helpers
 {
@@ -11,25 +7,60 @@ namespace WorkbenchWPF.Helpers
     {
         private string StringQuotes(string str)
         {
-            // 1.500,00
-            if (str.Contains(",")) return str.Replace(".", "").Replace(",", ".");
-            else return str;
+            try
+            {
+                if(!string.IsNullOrEmpty(str))
+                {
+                    // 1.500,00
+                    if (str.Contains(",")) return str.Replace(".", "").Replace(",", ".");
+                    else return str;
+                }
+                else
+                {
+                    return "0.00";
+                }
+            }
+            catch
+            {
+                return "0.00";
+            }
         }
 
         public decimal StringToDecimal(string str)
         {
-            return Convert.ToDecimal(StringQuotes(str), CultureInfo.InvariantCulture);
+            try
+            {
+                return Convert.ToDecimal(StringQuotes(str), CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                return 0.00m;
+            }
         }
 
         public int StringToInteger(string str)
         {
-            return Convert.ToInt32(str);
+            try
+            {
+                return Convert.ToInt32(str);
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public decimal CalcWinrate(decimal win, decimal loss)
         {
-            decimal x = win > 0 ? (win / (loss + win)) * 100 : 0;
-            return x;
+            try
+            {
+                decimal x = win > 0 ? (win / (loss + win)) * 100 : 0;
+                return x;
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }
