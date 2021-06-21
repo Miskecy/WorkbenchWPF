@@ -5,7 +5,7 @@ namespace WorkbenchWPF.Helpers
 {
     public class Utils
     {
-        private string StringQuotes(string str)
+        private static string StringQuotes(string str)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace WorkbenchWPF.Helpers
             }
         }
 
-        public decimal StringToDecimal(string str)
+        public static decimal StringToDecimal(string str)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace WorkbenchWPF.Helpers
             }
         }
 
-        public int StringToInteger(string str)
+        public static int StringToInteger(string str)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace WorkbenchWPF.Helpers
             }
         }
 
-        public decimal CalcWinrate(decimal win, decimal loss)
+        public static decimal CalcWinrate(decimal win, decimal loss)
         {
             try
             {
