@@ -12,7 +12,7 @@ namespace WorkbenchWPF.Models
         public string Active { get; set; }
         public int OpWin { get; set; }
         public int OpLoss { get; set; }
-        public int Contract { get; set; }
+        public int Contracts { get; set; }
         public decimal WinRate { get; set; }
         public decimal Win { get; set; }
         public decimal Loss { get; set; }
@@ -20,7 +20,7 @@ namespace WorkbenchWPF.Models
 
         public override string ToString()
         {
-            string str = $"{Id}\n{IsWorst}\n{Date}\n{Active}\n{OpWin}\n{OpLoss}\n{Contract}\n{WinRate}\n{Win}\n{Loss}\n{Profit}";
+            string str = $"{Id}\n{IsWorst}\n{Date}\n{Active}\n{OpWin}\n{OpLoss}\n{Contracts}\n{WinRate}\n{Win}\n{Loss}\n{Profit}";
             return str;
         }
     }

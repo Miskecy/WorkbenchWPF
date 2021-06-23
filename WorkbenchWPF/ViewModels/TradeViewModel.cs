@@ -7,18 +7,14 @@ using System.IO;
 using System.Windows;
 using WorkbenchWPF.Helpers;
 using WorkbenchWPF.Models;
-using WorkbenchWPF.Structs;
+using WorkbenchWPF.Trades;
 
 namespace WorkbenchWPF.ViewModels
 {
     public class TradeViewModel : Screen
     {
-        #region instances
-
         MongoCRUD db = new("Workbench");
-        Utils util = new();
 
-        #endregion
 
         #region TextBox Properties
 
@@ -88,7 +84,7 @@ namespace WorkbenchWPF.ViewModels
             }
             set 
             { 
-                _textBoxWin = value; 
+                _textBoxWin = value;  
                 NotifyOfPropertyChange(() => TextBoxWin); 
             }
         }
@@ -150,37 +146,19 @@ namespace WorkbenchWPF.ViewModels
         #region Methods to insert data into database
 
         #region Manual
-        public void CreateOperationManual()
+
+        private bool CanCreateOperationManual(string textBoxWin) => !string.IsNullOrWhiteSpace(textBoxWin);
+
+        public void CreateOperationManual(string textBoxWin)
         {
-            decimal Profit = util.StringToDecimal(TextBoxWin) - util.StringToDecimal(TextBoxLoss);
-            OperationStoreData store = new()
-            {
-                IsWorst = Profit <= 0,
-                Active = ComboBoxActive,
-                OpWin = util.StringToInteger(TextBoxOpWin),
-                OpLoss = util.StringToInteger(TextBoxOpLoss),
-                Winrate = util.CalcWinrate(util.StringToDecimal(TextBoxOpWin), util.StringToDecimal(TextBoxOpLoss)),
-                Win = util.StringToDecimal(TextBoxWin),
-                Loss = util.StringToDecimal(TextBoxLoss),
-                Contracts = util.StringToInteger(TextBoxContracts),
-                Profit = Profit
-            };
+            //temp check is whiteornull
+            if (string.IsNullOrWhiteSpace(TextBoxWin) 
+                && string.IsNullOrWhiteSpace(TextBoxLoss)
+                && string.IsNullOrWhiteSpace(TextBoxOpWin)
+                && string.IsNullOrWhiteSpace(TextBoxOpLoss)
+                && string.IsNullOrWhiteSpace(TextBoxContracts)) return;
 
-            OperationModel record = new()
-            {
-                IsWorst = store.IsWorst,
-                Date = DateTime.UtcNow,
-                Active = store.Active,
-                OpWin = store.OpWin,
-                OpLoss = store.OpLoss,
-                Contract = store.Contracts,
-                WinRate = store.Winrate,
-                Win = store.Win,
-                Loss = store.Loss,
-                Profit = store.Profit
-            };
-
-            db.CreateOne("trades", record);
+            db.CreateOne("trades", Trade.Create(ComboBoxActive, DateTime.UtcNow, TextBoxOpWin, TextBoxOpLoss, TextBoxWin, TextBoxLoss, TextBoxContracts));
             GetOperationsData();
 
             TextBoxWin = "";
@@ -196,54 +174,40 @@ namespace WorkbenchWPF.ViewModels
         {
             CSVHelper csvHelper = new();
             List<TrydCSVModel> csvData = csvHelper.LoadDataFile<TrydCSVModel>(filePath);
-            OperationStoreData store = new() {
-                IsWorst = false,
-                Active = "FUTURE",
-                OpWin = 0,
-                OpLoss = 0,
-                Winrate = 0m,
-                Win = 0m,
-                Loss = 0m,
-                Contracts = 0,
-                Profit = 0m
-            };            
+
+            decimal Loss, OpLoss, Win, OpWin;
+            Loss = OpLoss = Win = OpWin = 0m;
+            int Contracts = 0;
+            string Active = string.Empty;
 
             foreach (var item in csvData)
             {
-                decimal result = util.StringToDecimal(item.NetTotRes);
+                decimal result = Utils.StringToDecimal(item.NetTotRes);
                 Debug.WriteLine(result);
-                if ( result < 0)
+                if (result < 0)
                 {
-                    store.Loss -= result;
-                    store.OpLoss++;                    
-                } 
+                    Loss -= result;
+                    OpLoss++;
+                }
                 else
                 {
-                    store.Win += result;                    
-                    store.OpWin++;
+                    Win += result;
+                    OpWin++;
                 }
-                store.Active = item.Security;
-                store.Winrate = util.CalcWinrate(store.OpWin, store.OpWin);
-                store.Contracts += util.StringToInteger(item.Qtty);
-                store.Profit = store.Win - store.Loss;
-                store.IsWorst = store.Profit <= 0;
+                Active = item.Security;
+                Contracts += Utils.StringToInteger(item.Qtty);
             }
 
-            OperationModel record = new()
-            {
-                IsWorst = store.IsWorst,
-                Date = DateTime.UtcNow,
-                Active = store.Active,
-                OpWin = store.OpWin,
-                OpLoss = store.OpLoss,
-                Contract = store.Contracts,
-                WinRate = store.Winrate,
-                Win = store.Win,
-                Loss = store.Loss,
-                Profit = store.Profit
-            };
-
-            return db.CreateOne("trades", record);         
+            return db.CreateOne("trades", 
+                Trade.Create(
+                    Active, 
+                    DateTime.UtcNow, 
+                    OpWin.ToString(), 
+                    OpLoss.ToString(), 
+                    Win.ToString(), 
+                    Loss.ToString(), 
+                    Contracts.ToString()
+                    ));         
         }
         #endregion
 
