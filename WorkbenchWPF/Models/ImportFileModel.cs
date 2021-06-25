@@ -7,5 +7,6 @@
         public int FileProgress { get; set; }
         public string FilePath { get; set; }
         public bool IsImported { get; set; }
+        public string Icon { get; set; }
     }
 }

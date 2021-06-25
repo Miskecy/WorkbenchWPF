@@ -152,11 +152,12 @@ namespace WorkbenchWPF.ViewModels
         public void CreateOperationManual(string textBoxWin)
         {
             //temp check is whiteornull
-            if (string.IsNullOrWhiteSpace(TextBoxWin) 
-                && string.IsNullOrWhiteSpace(TextBoxLoss)
-                && string.IsNullOrWhiteSpace(TextBoxOpWin)
-                && string.IsNullOrWhiteSpace(TextBoxOpLoss)
-                && string.IsNullOrWhiteSpace(TextBoxContracts)) return;
+            if (string.IsNullOrWhiteSpace(ComboBoxActive) 
+                || string.IsNullOrWhiteSpace(TextBoxWin) 
+                || string.IsNullOrWhiteSpace(TextBoxLoss)
+                || string.IsNullOrWhiteSpace(TextBoxOpWin)
+                || string.IsNullOrWhiteSpace(TextBoxOpLoss)
+                || string.IsNullOrWhiteSpace(TextBoxContracts)) return;
 
             db.CreateOne("trades", Trade.Create(ComboBoxActive, DateTime.UtcNow, TextBoxOpWin, TextBoxOpLoss, TextBoxWin, TextBoxLoss, TextBoxContracts));
             GetOperationsData();
@@ -174,6 +175,11 @@ namespace WorkbenchWPF.ViewModels
         {
             CSVHelper csvHelper = new();
             List<TrydCSVModel> csvData = csvHelper.LoadDataFile<TrydCSVModel>(filePath);
+
+            foreach (var item in csvData)
+            {
+                if (string.IsNullOrWhiteSpace(item.Security) || string.IsNullOrWhiteSpace(item.Open)) return false;
+            }
 
             decimal Loss, OpLoss, Win, OpWin;
             Loss = OpLoss = Win = OpWin = 0m;
@@ -235,7 +241,8 @@ namespace WorkbenchWPF.ViewModels
                     FileSize = string.Format("{0} {1}", (fileinfo.Length / 1.049e+6).ToString("0.0"), "Mb"),
                     FileProgress = 0,
                     FilePath = fileinfo.ToString(),
-                    IsImported = false
+                    IsImported = false,
+                    Icon = "../Assets/Icons/delete_50px_Red.png"
                 };
 
                 ListImports.Add(fileSelected);
@@ -301,11 +308,18 @@ namespace WorkbenchWPF.ViewModels
                 {
                     if (CreateOperationAutomatic(item.FilePath))
                     {
-
                         item.FileProgress = 100;
                         item.IsImported = true;
                         GetImportFileList();
                         GetOperationsData();
+                        item.Icon = "../Assets/Icons/checkmark_50px.png";
+                    } 
+                    else
+                    {
+                        item.FileProgress = 100;
+                        item.IsImported = true;
+                        GetImportFileList();
+                        item.Icon = "../Assets/Icons/cancel_50px_Red.png";
                     }
                 }
             }

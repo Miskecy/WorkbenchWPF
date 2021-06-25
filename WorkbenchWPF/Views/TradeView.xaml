@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WorkbenchWPF.Views.TradeView"
+<UserControl x:Class="WorkbenchWPF.Views.TradeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -221,7 +221,7 @@
                 <DataGridTemplateColumn Header="CONTRACT"  Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Contract}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Path=Contracts}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

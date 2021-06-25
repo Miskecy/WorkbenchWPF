@@ -36,5 +36,13 @@ namespace WorkbenchWPF.ViewModels
             get { return _uploadspeed; }
             set { _uploadspeed = value; }
         }
+
+        private string _icon;
+
+        public string Icon
+        {
+            get { return _icon; }
+            set { _icon = value; }
+        }
     }
 }

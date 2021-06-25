@@ -140,18 +140,20 @@
                Margin="0 7 0 0"
                Width="20" Height="20"
                RenderOptions.BitmapScalingMode="HighQuality"
-               RenderOptions.EdgeMode="Aliased" >
+               RenderOptions.EdgeMode="Aliased" 
+               x:Name="statusIcon">
 
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
-                    <Setter Property="Source" Value="../Assets/Icons/delete_50px_Red.png"/>
+                    <!--<Setter Property="Source" Value="../Assets/Icons/delete_50px_Red.png"/>-->
+                    <Setter Property="Source" Value="{Binding Path=Icon}"/>
                     <Setter Property="Cursor" Value="Hand"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Value, ElementName=progressBar}" Value="100">
-                            <Setter Property="Source" Value="../Assets/Icons/checkmark_50px.png"/>
+                            <!--<Setter Property="Source" Value="../Assets/Icons/checkmark_50px.png"/>-->
                             <Setter Property="Cursor" Value="Arrow"/>
-                        </DataTrigger>
-                    </Style.Triggers>
+                        </DataTrigger>                        
+                    </Style.Triggers>                    
                 </Style>
             </Image.Style>
         </Image>
